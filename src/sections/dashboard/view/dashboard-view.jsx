@@ -28,4 +28,4 @@ export const DashboardView = ({
   );
 };
 
-Overview.propTypes = {};
+DashboardView.propTypes = {};

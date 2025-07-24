@@ -1,71 +1,80 @@
 import React from 'react';
-import { Button, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { Button, Stack, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { FormikProvider } from 'formik';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { PasswordField } from 'src/components/password-field/password-field';
+import commonUtil from 'src/utils/common-util';
 
-const LoginForm = ({ handleClick, handleShowPassword, showPassword, formik, isLoading }) => {
-  const { touched, errors, getFieldProps } = formik;
+const LoginForm = ({
+  formik,
+  isUserEmailVerified,
+  isUserFirstLogin,
+  isLoadingVerifyEmail,
+  isLoadingLogin,
+  handleVerifyUserLogin,
+}) => {
+  const { values, touched, errors, getFieldProps, handleSubmit } = formik;
 
   return (
     <FormikProvider value={formik}>
-      <Stack spacing={3} sx={{ my: 1 }}>
-        <TextField
-          label="User Name/Email"
-          autoComplete="off"
-          fullWidth
-          {...getFieldProps('userEmail')}
-          error={Boolean(touched.userEmail && errors.userEmail)}
-          helperText={touched.userEmail && errors.userEmail}
-        />
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={3} sx={{ my: 1 }}>
+          <TextField
+            label="User Name/Email"
+            autoComplete="off"
+            fullWidth
+            {...getFieldProps('email')}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
+          />
+          {isUserEmailVerified && !isUserFirstLogin && (
+            <PasswordField
+              label={'User Password'}
+              {...getFieldProps('password')}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+            />
+          )}
+        </Stack>
 
-        <TextField
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleShowPassword} edge="end">
-                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          {...getFieldProps('userPassword')}
-          error={Boolean(touched.userPassword && errors.userPassword)}
-          helperText={touched.userPassword && errors.userPassword}
-        />
-      </Stack>
-
-      {/* <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+        {/* <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
       </Stack> */}
 
-      <Button
-        fullWidth
-        loading={isLoading}
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        loadingPosition="start"
-        onClick={handleClick}
-      >
-        Continue
-      </Button>
+        {!isUserEmailVerified && (
+          <Button
+            fullWidth
+            loading={isLoadingVerifyEmail}
+            disabled={isLoadingVerifyEmail || commonUtil.stringIsEmptyOrSpaces(values.email)}
+            size="large"
+            variant="contained"
+            color="inherit"
+            loadingPosition="start"
+            onClick={handleVerifyUserLogin}
+          >
+            Verify Email
+          </Button>
+        )}
+
+        {isUserEmailVerified && !isUserFirstLogin && (
+          <Button
+            fullWidth
+            loading={isLoadingLogin}
+            size="large"
+            type="submit"
+            variant="contained"
+            color="inherit"
+            loadingPosition="start"
+          >
+            Continue
+          </Button>
+        )}
+      </form>
     </FormikProvider>
   );
-};
-
-LoginForm.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  handleShowPassword: PropTypes.func.isRequired,
-  showPassword: PropTypes.bool.isRequired,
 };
 
 export default LoginForm;

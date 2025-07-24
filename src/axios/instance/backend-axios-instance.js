@@ -36,6 +36,9 @@ backendAuthApi.interceptors.response.use(
       let errorMessage = SNACKBAR_MESSAGE.SOMETHING_WENT_WRONG.MESSAGE;
       let errorCode = null;
 
+      console.log(error);
+      
+
       if (error.response) {
         const errorResponse = error.response.data;
         if (!common_util.isUndefinedOrNull(errorResponse.responseMessage)) {

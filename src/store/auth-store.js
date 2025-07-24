@@ -10,7 +10,7 @@ const useAuthStore = create(
         isLoggedIn: false,
         user: {
           id: '',
-          token: '',
+          token: null,
           name: '',
           userEmail: '',
           userRole: '',
@@ -24,10 +24,24 @@ const useAuthStore = create(
             user: {
               id: payload.user._id,
               token: payload.token,
-              name: `${payload.user.userFirstName} ${payload.user.userLastName}`,
-              userEmail: payload.user.userEmail,
-              userRole: payload.user.userRole,
-              isUserFirstLogin: payload.user.isUserFirstLogin,
+              name: payload.user.adminFullName,
+              userEmail: payload.user.adminEmail,
+              userRole: payload.user.adminRole,
+              isUserFirstLogin: payload.user.isAdminFirstLogin,
+            },
+          },
+        })),
+      saveUserData: (payload) =>
+        set((state) => ({
+          auth: {
+            isLoggedIn: false,
+            user: {
+              id: payload._id,
+              token: null,
+              name: '',
+              userEmail: '',
+              userRole: '',
+              isUserFirstLogin: true,
             },
           },
         })),
@@ -37,7 +51,7 @@ const useAuthStore = create(
             isLoggedIn: false,
             user: {
               id: '',
-              token: '',
+              token: null,
               name: '',
               userEmail: '',
               userRole: '',

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
@@ -36,24 +36,29 @@ const PublicRoutes = [
 ];
 
 const Router = () => {
-  const { auth } = useAuthStore.getState();
-  const isAuthenticated = auth.isLoggedIn;
-
-  const routes = useRoutes([
-    {
-      path: '/',
-      element: isAuthenticated ? (
-        AuthenticatedRoutes
-      ) : (
-        <Navigate to={NAVIGATION_ROUTES.login} replace />
-      ),
-      children: [
-        { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
-        { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
-      ],
-    },
-    ...PublicRoutes,
-  ]);
+  const { auth } = useAuthStore();
+  
+  const routes = useRoutes(
+    useMemo(() => {
+      const isAuthenticated = auth.isLoggedIn && !auth.user.isUserFirstLogin;
+      
+      return [
+        {
+          path: '/',
+          element: isAuthenticated ? (
+            AuthenticatedRoutes
+          ) : (
+            <Navigate to={NAVIGATION_ROUTES.login} replace />
+          ),
+          children: [
+            { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
+            { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
+          ],
+        },
+        ...PublicRoutes,
+      ];
+    }, [auth.isLoggedIn, auth.user.isUserFirstLogin])
+  );
 
   return routes;
 };

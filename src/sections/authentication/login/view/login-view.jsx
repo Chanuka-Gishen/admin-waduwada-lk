@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -14,14 +12,15 @@ import Logo from 'src/components/logo';
 
 // ----------------------------------------------------------------------
 
-export const LoginView = ({ handleLogin, formik, isLoading }) => {
+export const LoginView = ({
+  formik,
+  isUserEmailVerified,
+  isUserFirstLogin,
+  isLoadingVerifyEmail,
+  isLoadingLogin,
+  handleVerifyUserLogin,
+}) => {
   const theme = useTheme();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <Box
@@ -64,10 +63,11 @@ export const LoginView = ({ handleLogin, formik, isLoading }) => {
           </Box>
           <LoginForm
             formik={formik}
-            handleClick={handleLogin}
-            handleShowPassword={handleShowPassword}
-            showPassword={showPassword}
-            isLoading={isLoading}
+            isUserEmailVerified={isUserEmailVerified}
+            isUserFirstLogin={isUserFirstLogin}
+            isLoadingVerifyEmail={isLoadingVerifyEmail}
+            isLoadingLogin={isLoadingLogin}
+            handleVerifyUserLogin={handleVerifyUserLogin}
           />
         </Card>
       </Stack>
@@ -76,7 +76,10 @@ export const LoginView = ({ handleLogin, formik, isLoading }) => {
 };
 
 LoginView.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   formik: PropTypes.object.isRequired,
+  isUserEmailVerified: PropTypes.bool.isRequired,
+  isUserFirstLogin: PropTypes.bool.isRequired,
+  isLoadingVerifyEmail: PropTypes.bool.isRequired,
+  isLoadingLogin: PropTypes.bool.isRequired,
+  handleVerifyUserLogin: PropTypes.func.isRequired,
 };

@@ -1,59 +1,62 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { FormikProvider } from 'formik';
-import { LoadingButton } from '@mui/lab';
-import { Stack } from '@mui/material';
+import { Formik } from 'formik';
+import { Button, Stack } from '@mui/material';
 
 import { PasswordField } from 'src/components/password-field/password-field';
+import { resetPasswordSchema } from 'src/schema';
 
-export const SetPasswordForm = ({ formik, isLoading, handleSubmit }) => {
-  const { touched, errors, getFieldProps } = formik;
-
+export const SetPasswordForm = ({ isLoading, handleConfirm }) => {
   return (
-    <FormikProvider value={formik}>
-      <Stack spacing={3} sx={{ my: 3 }}>
-        <PasswordField
-          label="Password"
-          {...getFieldProps('userPassword')}
-          error={Boolean(touched.userPassword && errors.userPassword)}
-          helperText={touched.userPassword && errors.userPassword}
-        />
+    <Formik
+      initialValues={{
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={resetPasswordSchema}
+      onSubmit={(values) => {
+        handleConfirm(values);
+      }}
+    >
+      {({ errors, touched, handleSubmit, getFieldProps }) => (
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={3} sx={{ my: 3 }}>
+            <PasswordField
+              label="Password"
+              {...getFieldProps('password')}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+            />
 
-        <PasswordField
-          label="Confirm Password"
-          {...getFieldProps('userConfirmPassword')}
-          error={Boolean(touched.userConfirmPassword && errors.userConfirmPassword)}
-          helperText={touched.userConfirmPassword && errors.userConfirmPassword}
-        />
-      </Stack>
+            <PasswordField
+              label="Confirm Password"
+              {...getFieldProps('confirmPassword')}
+              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+              helperText={touched.confirmPassword && errors.confirmPassword}
+            />
+          </Stack>
 
-      {/* <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack> */}
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleSubmit}
-        loading={isLoading}
-        disabled={isLoading}
-      >
-        Login
-      </LoadingButton>
-    </FormikProvider>
+          <Button
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            color="inherit"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Login
+          </Button>
+        </form>
+      )}
+    </Formik>
   );
 };
 
 SetPasswordForm.propTypes = {
-  formik: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  handleConfirm: PropTypes.func.isRequired,
 };
 
 export default SetPasswordForm;

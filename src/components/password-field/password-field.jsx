@@ -17,24 +17,20 @@ export const PasswordField = ({ label, error, helperText, ...props }) => {
     <TextField
       label={label}
       type={showPassword ? 'text' : 'password'}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton onClick={handleShowPassword} edge="end">
-              {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon/>}
-            </IconButton>
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleShowPassword} edge="end">
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
       }}
       {...props}
       error={error}
       helperText={helperText}
     />
   );
-};
-
-PasswordField.propTypes = {
-  label: PropTypes.string.isRequired,
-  error: PropTypes.bool,
-  helperText: PropTypes.any.isRequired,
 };

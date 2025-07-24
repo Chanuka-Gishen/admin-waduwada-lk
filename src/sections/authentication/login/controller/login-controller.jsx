@@ -1,81 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useFormik } from 'formik';
-import { useSnackbar } from 'notistack';
-import axios from 'axios';
-import * as Yup from 'yup';
 
 import { LoginView } from '../view/login-view';
 import { NAVIGATION_ROUTES } from 'src/routes/navigation-routes';
 import { useRouter } from 'src/routes/hooks';
 
-import { backendAuthApi } from 'src/axios/instance/backend-axios-instance';
-import { BACKEND_API } from 'src/axios/constant/backend-api';
-import responseUtil from 'src/utils/responseUtil';
-import { SNACKBAR_VARIANT } from 'src/constants/snackbar-constants';
 import useAuthStore from 'src/store/auth-store';
+import { loginSchema } from 'src/schema';
+import useAuth from 'src/hooks/use-auth';
 
 //-------------------------------------------------------
-
-const validationSchema = Yup.object().shape({
-  userEmail: Yup.string().required('User Name is required'),
-  userPassword: Yup.string().required('Password is required'),
-});
 
 const LoginController = () => {
   const router = useRouter();
   const { loginUser } = useAuthStore.getState();
-  const { enqueueSnackbar } = useSnackbar();
 
-  let cancelToken = axios.CancelToken.source();
+  const { isLoadingVerifyEmail, isLoadingLogin, verifyUserEmailController, loginController } =
+    useAuth();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { saveUserData } = useAuthStore.getState();
+
+  const [isUserEmailVerified, setIsUserEmailVerified] = useState(false);
+  const [isUserFirstLogin, setIsUserFirstLogin] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      userEmail: '',
-      userPassword: '',
+      email: '',
+      password: '',
     },
-    validationSchema: validationSchema,
-    onSubmit: () => {
-      null;
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      handleLogin(values);
     },
   });
 
-  const handleLogin = async () => {
-    if (formik.isValid && formik.dirty) {
-      setIsLoading(true);
+  const handleVerifyUserLogin = async () => {
+    const user = await verifyUserEmailController(formik.values.email);
 
-      await backendAuthApi({
-        url: BACKEND_API.LOGIN,
-        method: 'POST',
-        cancelToken: cancelToken.token,
-        data: formik.values,
-      })
-        .then((res) => {
-          const data = res.data;
-          if (responseUtil.isResponseSuccess(data.responseCode)) {
-            loginUser(data.responseData);
+    setIsUserEmailVerified(user ? true : false);
+    setIsUserFirstLogin(user ? user.isAdminFirstLogin : false);
 
-            if (data.responseData.userNewPwd) {
-              router.push(NAVIGATION_ROUTES.set_password);
-            } else {
-              // Update login status - TODO
-              router.push(NAVIGATION_ROUTES.dashboard.base);
-            }
-          } else {
-            enqueueSnackbar(data.responseMessage, {
-              variant: SNACKBAR_VARIANT.ERROR,
-            });
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+    if (user && user.isAdminFirstLogin) {
+      saveUserData(user);
+      router.push(NAVIGATION_ROUTES.set_password);
     }
   };
 
-  return <LoginView handleLogin={handleLogin} formik={formik} isLoading={isLoading} />;
+  const handleLogin = async (data) => {
+    const response = await loginController(data);
+
+    if (response) {
+      loginUser(response);
+      router.push(NAVIGATION_ROUTES.dashboard);
+    }
+  };
+
+  return (
+    <LoginView
+      formik={formik}
+      isUserEmailVerified={isUserEmailVerified}
+      isUserFirstLogin={isUserFirstLogin}
+      isLoadingVerifyEmail={isLoadingVerifyEmail}
+      isLoadingLogin={isLoadingLogin}
+      handleVerifyUserLogin={handleVerifyUserLogin}
+    />
+  );
 };
 
 export default LoginController;

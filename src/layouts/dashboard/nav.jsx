@@ -8,17 +8,13 @@ import Avatar from '@mui/material/Avatar';
 import { alpha, styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { usePathname, useRouter } from 'src/routes/hooks';
-
-import { account } from 'src/_mock/account';
 
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
-import { USER_ROLE } from 'src/constants/user-role';
 import { NAVBAR_ITEMS } from './common/navigation-names';
 import useAuthStore from 'src/store/auth-store';
 import { Badge } from '@mui/material';
