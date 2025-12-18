@@ -9,8 +9,8 @@ export const BACKEND_API = {
 
   USER_EMAIL_VALIDATE: IP_URL + '/admin/noAuth/verify-email',
   USER_RESET_PWD: IP_URL + '/admin/noAuth/reset-pwd',
-  USER_REGISTER: IP_URL + '/user/supAuth/create',
-  USERS: IP_URL + '/user/auth/all',
-  USER_UPDATE: IP_URL + '/user/supAuth/update',
-  USER_ACTIVITIES: IP_URL + '/user/supAuth/get-activities',
+  USER_REGISTER: IP_URL + '/admin/supAuth/register',
+  USER_UPDATE: IP_URL + '/admin/supAuth/update',
+  USER_CHANGE_PWD: IP_URL + '/admin/auth/change-pwd',
+  USERS: IP_URL + '/admin/supAuth/list',
 };

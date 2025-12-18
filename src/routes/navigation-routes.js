@@ -13,4 +13,7 @@ export const NAVIGATION_ROUTES = {
     base: '/dashboard',
     main: '',
   },
+  admins: {
+    base: '/administration',
+  },
 };

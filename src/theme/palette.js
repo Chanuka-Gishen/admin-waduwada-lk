@@ -18,22 +18,40 @@ export const grey = {
 };
 
 export const primary = {
-  lighter: '#D0ECFE',
-  light: '#73BAFB',
-  main: '#1877F2',
-  dark: '#0C44AE',
-  darker: '#042174',
+  lighter: '#FFE7CC',
+  light: '#FFB74D',
+  main: '#FF9800', // Standard Material-UI orange
+  dark: '#F57C00',
+  darker: '#E65100',
   contrastText: '#FFFFFF',
 };
 
 export const secondary = {
-  lighter: '#EFD6FF',
-  light: '#C684FF',
-  main: '#8E33FF',
-  dark: '#5119B7',
-  darker: '#27097A',
+  lighter: '#E8EAF6',
+  light: '#7986CB',
+  main: '#3F51B5', // Indigo blue as complementary color
+  dark: '#303F9F',
+  darker: '#1A237E',
   contrastText: '#FFFFFF',
 };
+
+// export const primary = {
+//   lighter: '#D0ECFE',
+//   light: '#73BAFB',
+//   main: '#1877F2',
+//   dark: '#0C44AE',
+//   darker: '#042174',
+//   contrastText: '#FFFFFF',
+// };
+
+// export const secondary = {
+//   lighter: '#EFD6FF',
+//   light: '#C684FF',
+//   main: '#8E33FF',
+//   dark: '#5119B7',
+//   darker: '#27097A',
+//   contrastText: '#FFFFFF',
+// };
 
 export const info = {
   lighter: '#CAFDF5',

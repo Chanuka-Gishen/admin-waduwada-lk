@@ -12,6 +12,7 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // --------------- Auth Pages ---------------
 export const IndexPage = lazy(() => import('src/pages/app'));
+export const AdministrationPage = lazy(() => import('src/pages/admins'));
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ const Router = () => {
       children: [
         { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
         { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
+        { path: NAVIGATION_ROUTES.admins.base, element: <AdministrationPage /> },
       ],
     },
     ...PublicRoutes,

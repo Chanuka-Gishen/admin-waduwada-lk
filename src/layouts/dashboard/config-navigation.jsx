@@ -1,6 +1,7 @@
 import { NAVBAR_ITEMS } from './common/navigation-names';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 import { USER_ROLE } from 'src/constants/user-role';
 
@@ -13,6 +14,13 @@ const navConfig = [
     path: '',
     icon: <DashboardIcon />,
     permissions: [USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN, USER_ROLE.STAFF],
+  },
+  {
+    title: 'Adminstration',
+    name: NAVBAR_ITEMS.ADMINISTRATION,
+    path: NAVBAR_ITEMS.ADMINISTRATION,
+    icon: <AdminPanelSettingsIcon />,
+    permissions: [USER_ROLE.SUPER_ADMIN],
   },
 ];
 

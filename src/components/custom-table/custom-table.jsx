@@ -14,7 +14,7 @@ import TableLoadingRow from './table-loading-row.jsx';
 import TableEmptyRow from './table-empty-row.jsx';
 
 export const CustomTable = ({
-  keys,
+  columns,
   dataLength,
   isLoading,
   tableBody,
@@ -24,8 +24,8 @@ export const CustomTable = ({
   rowerPerPage = [5, 10, 20, 30],
   page = 0,
   limit = 10,
-  handleChangePage,
-  handleChangeRowsPerPage,
+  handleChangePage = null,
+  handleChangeRowsPerPage = null,
 }) => {
   return (
     <>
@@ -33,7 +33,7 @@ export const CustomTable = ({
         <Table>
           <TableHead>
             <TableRow>
-              {keys.map((item, index) => (
+              {columns.map((item, index) => (
                 <TableCell key={index} align={'left'}>
                   {item}
                 </TableCell>
@@ -42,9 +42,9 @@ export const CustomTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {isLoading && <TableLoadingRow colSpan={keys.length} />}
+            {isLoading && <TableLoadingRow colSpan={columns.length} />}
             {!isLoading && dataLength === 0 && (
-              <TableEmptyRow colSpan={enableAction ? keys.length + 1 : keys.length} />
+              <TableEmptyRow colSpan={enableAction ? columns.length + 1 : columns.length} />
             )}
             {!isLoading && dataLength > 0 && <>{tableBody}</>}
           </TableBody>
@@ -66,7 +66,7 @@ export const CustomTable = ({
 };
 
 CustomTable.propTypes = {
-  keys: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
   data: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
   enableAction: PropTypes.bool,
