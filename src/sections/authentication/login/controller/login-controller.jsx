@@ -52,7 +52,7 @@ const LoginController = () => {
 
     if (response) {
       loginUser(response);
-      router.push(NAVIGATION_ROUTES.dashboard);
+      router.push(NAVIGATION_ROUTES.dashboard.base);
     }
   };
 

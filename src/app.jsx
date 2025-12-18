@@ -4,7 +4,7 @@ import { createRef } from 'react';
 import 'src/global.css';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { SnackbarProvider } from 'notistack';
 import { IconButton } from '@mui/material';
@@ -24,7 +24,7 @@ export default function App() {
   // Dismiss Action to all snackbars
   const notistackRef = createRef();
   const onClickDismiss = (key) => () => {
-    notistackRef.current.closeSnackbar(key);
+    notistackRef.current?.closeSnackbar(key);
   };
 
   return (

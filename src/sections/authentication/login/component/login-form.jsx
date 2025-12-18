@@ -27,6 +27,16 @@ const LoginForm = ({
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (!isUserEmailVerified) {
+                  handleVerifyUserLogin();
+                } else {
+                  handleSubmit();
+                }
+              }
+            }}
           />
           {isUserEmailVerified && !isUserFirstLogin && (
             <PasswordField
@@ -34,6 +44,12 @@ const LoginForm = ({
               {...getFieldProps('password')}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
             />
           )}
         </Stack>

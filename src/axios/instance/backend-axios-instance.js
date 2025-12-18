@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { v1 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import common_util from 'src/utils/common-util';
 
@@ -15,9 +15,9 @@ export const backendAuthApi = axios.create({
 });
 
 backendAuthApi.interceptors.request.use((request) => {
-
   const { auth } = useAuthStore.getState();
   const bearerToken = auth ? auth.user.token : null;
+
   if (bearerToken) {
     request.headers.Authorization = `Bearer ${bearerToken}`;
   }
@@ -35,9 +35,6 @@ backendAuthApi.interceptors.response.use(
     if (error && !axios.isCancel(error)) {
       let errorMessage = SNACKBAR_MESSAGE.SOMETHING_WENT_WRONG.MESSAGE;
       let errorCode = null;
-
-      console.log(error);
-      
 
       if (error.response) {
         const errorResponse = error.response.data;

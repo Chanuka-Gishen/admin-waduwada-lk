@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useSnackbar } from 'notistack';
 
 import { backendAuthApi } from 'src/axios/instance/backend-axios-instance';
 import { BACKEND_API } from 'src/axios/constant/backend-api';
 import responseUtil from 'src/utils/responseUtil';
 
 const useAuth = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const sourceToken = axios.CancelToken.source();
 
   const [isLoadingVerifyEmail, setIsLoadingVerifyEmail] = useState(false);
@@ -54,10 +52,6 @@ const useAuth = () => {
         if (responseUtil.isResponseSuccess(res.data.responseCode)) {
           response = res.data.responseData;
         }
-
-        enqueueSnackbar(res.data.responseMessage, {
-          variant: responseUtil.findResponseType(res.data.responseCode),
-        });
       })
       .catch(() => {
         setIsLoadingPwdReset(false);

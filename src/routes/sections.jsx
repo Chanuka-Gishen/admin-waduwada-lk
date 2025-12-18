@@ -36,29 +36,28 @@ const PublicRoutes = [
 ];
 
 const Router = () => {
-  const { auth } = useAuthStore();
-  
-  const routes = useRoutes(
-    useMemo(() => {
-      const isAuthenticated = auth.isLoggedIn && !auth.user.isUserFirstLogin;
-      
-      return [
-        {
-          path: '/',
-          element: isAuthenticated ? (
-            AuthenticatedRoutes
-          ) : (
-            <Navigate to={NAVIGATION_ROUTES.login} replace />
-          ),
-          children: [
-            { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
-            { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
-          ],
-        },
-        ...PublicRoutes,
-      ];
-    }, [auth.isLoggedIn, auth.user.isUserFirstLogin])
-  );
+  const { auth } = useAuthStore.getState();
+  const isAuthenticated = auth.isLoggedIn;
+
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: isAuthenticated ? (
+        AuthenticatedRoutes
+      ) : (
+        <Navigate to={NAVIGATION_ROUTES.login} replace />
+      ),
+      children: [
+        { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
+        { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
+      ],
+    },
+    ...PublicRoutes,
+    {
+      path: NAVIGATION_ROUTES.all_path,
+      element: <Page404 />,
+    },
+  ]);
 
   return routes;
 };
