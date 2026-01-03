@@ -13,4 +13,8 @@ export const BACKEND_API = {
   USER_UPDATE: IP_URL + '/admin/supAuth/update',
   USER_CHANGE_PWD: IP_URL + '/admin/auth/change-pwd',
   USERS: IP_URL + '/admin/supAuth/list',
+
+  MERCHANTS: IP_URL + '/merchant/auth/list',
+  MERCHANT_REGISTER: IP_URL + '/merchant/auth/register',
+  MERCHANT_UPDATE: IP_URL + '/merchant/auth/update'
 };

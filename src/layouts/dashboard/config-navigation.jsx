@@ -1,6 +1,7 @@
 import { NAVBAR_ITEMS } from './common/navigation-names';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 import { USER_ROLE } from 'src/constants/user-role';
@@ -16,7 +17,14 @@ const navConfig = [
     permissions: [USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN, USER_ROLE.STAFF],
   },
   {
-    title: 'Adminstration',
+    title: 'Merchants',
+    name: NAVBAR_ITEMS.MERCHANTS,
+    path: NAVBAR_ITEMS.MERCHANTS,
+    icon: <StorefrontIcon />,
+    permissions: [USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN, USER_ROLE.STAFF],
+  },
+  {
+    title: 'Administration',
     name: NAVBAR_ITEMS.ADMINISTRATION,
     path: NAVBAR_ITEMS.ADMINISTRATION,
     icon: <AdminPanelSettingsIcon />,
