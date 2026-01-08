@@ -14,6 +14,7 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const AdministrationPage = lazy(() => import('src/pages/admins'));
 export const MerchantsPage = lazy(() => import('src/pages/merchants'));
+export const SubscriptionPlansPage = lazy(() => import('src/pages/subscription-plans'));
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +54,7 @@ const Router = () => {
         { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
         { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
         { path: NAVIGATION_ROUTES.merchants.base, element: <MerchantsPage /> },
+        { path: NAVIGATION_ROUTES.subscription_plans.base, element: <SubscriptionPlansPage /> },
         { path: NAVIGATION_ROUTES.admins.base, element: <AdministrationPage /> },
       ],
     },

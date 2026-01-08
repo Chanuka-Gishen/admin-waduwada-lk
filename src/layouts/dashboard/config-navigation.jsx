@@ -2,6 +2,7 @@ import { NAVBAR_ITEMS } from './common/navigation-names';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 import { USER_ROLE } from 'src/constants/user-role';
@@ -22,6 +23,13 @@ const navConfig = [
     path: NAVBAR_ITEMS.MERCHANTS,
     icon: <StorefrontIcon />,
     permissions: [USER_ROLE.SUPER_ADMIN, USER_ROLE.ADMIN, USER_ROLE.STAFF],
+  },
+  {
+    title: 'Subscription Plans',
+    name: NAVBAR_ITEMS.SUBSCRIPTION_PLANS,
+    path: NAVBAR_ITEMS.SUBSCRIPTION_PLANS,
+    icon: <SubscriptionsIcon />,
+    permissions: [USER_ROLE.SUPER_ADMIN],
   },
   {
     title: 'Administration',

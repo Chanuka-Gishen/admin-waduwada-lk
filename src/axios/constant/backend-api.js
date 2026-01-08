@@ -16,5 +16,10 @@ export const BACKEND_API = {
 
   MERCHANTS: IP_URL + '/merchant/auth/list',
   MERCHANT_REGISTER: IP_URL + '/merchant/auth/register',
-  MERCHANT_UPDATE: IP_URL + '/merchant/auth/update'
+  MERCHANT_UPDATE: IP_URL + '/merchant/auth/update',
+
+  SUBSCRIPTION_CREATE: IP_URL + '/subscription/supAuth/add',
+  SUBSCRIPTION_UPDATE: IP_URL + '/subscription/supAuth/update',
+  SUBSCRIPTIONS: IP_URL + '/subscription/noAuth/list',
+  SUBSCRIPTION_OPTIONS: IP_URL + '/subscription/supAuth/options',
 };

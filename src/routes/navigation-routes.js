@@ -13,8 +13,11 @@ export const NAVIGATION_ROUTES = {
     base: '/dashboard',
     main: '',
   },
-  merchants:{
-    base: '/merchants'
+  merchants: {
+    base: '/merchants',
+  },
+  subscription_plans: {
+    base: '/subscription_plans',
   },
   admins: {
     base: '/administration',

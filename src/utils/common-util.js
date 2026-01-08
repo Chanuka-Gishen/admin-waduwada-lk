@@ -1,3 +1,8 @@
+import {
+  SUB_PLAN_DURATION_ANNUAL,
+  SUB_PLAN_DURATION_MONTHLY,
+} from 'src/constants/subscription-constants';
+
 /**
  * Returns true if a value is undefined
  * @param value
@@ -90,13 +95,24 @@ const formatPhoneNumber = (value) => {
   return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(5, 9)}`;
 };
 
+const getSubscriptionDiscountedPrice = (plan) => {
+  const monthly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY);
+  const yearly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL);
+
+  return {
+    monthly: monthly?.isDiscountActive ? monthly.price - monthly.discountAmount : monthly?.price,
+    yearly: yearly?.isDiscountActive ? yearly.price - yearly.discountAmount : yearly?.price,
+  };
+};
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   isUndefinedOrNull,
   roundNumber,
   stringIsEmptyOrSpaces,
   getDirectImageLink,
+  getSubscriptionDiscountedPrice,
   calculateMonthDifference,
   validateFormik,
-  formatPhoneNumber
+  formatPhoneNumber,
 };
