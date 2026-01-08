@@ -9,9 +9,11 @@ export const MerchantsView = ({
   merchants,
   merchantCount,
   searchParams,
+  subscriptionOptions,
   pagination,
   isOpenRegisterForm,
   isLoadingMerchants,
+  isLoadingSubscriptionOptions,
   isLoadingMerchantRegister,
   handleChangeSearch,
   handleToggleRegisterForm,
@@ -62,6 +64,8 @@ export const MerchantsView = ({
       {isOpenRegisterForm && (
         <MerchantRegistrationDialog
           open={isOpenRegisterForm}
+          subscriptionOptions={subscriptionOptions}
+          isLoadingSubscriptionOptions={isLoadingSubscriptionOptions}
           isSubmitting={isLoadingMerchantRegister}
           onClose={handleToggleRegisterForm}
           onSubmit={handleRegisterMerchant}

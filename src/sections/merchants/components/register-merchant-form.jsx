@@ -17,17 +17,21 @@ import {
   Select,
   FormHelperText,
   Grid,
+  Autocomplete,
 } from '@mui/material';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { registerMerchantSchema } from 'src/schema';
-import {
-  MERCHANT_TYP_CARPENTER,
-  MERCHANT_TYP_SHOP_OWNER,
-  MERCHANT_TYPES,
-} from 'src/constants/merchant-constants';
+import { MERCHANT_TYP_CARPENTER, MERCHANT_TYP_SHOP_OWNER } from 'src/constants/merchant-constants';
 import commonUtil from 'src/utils/common-util';
 
-const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = false }) => {
+const MerchantRegistrationDialog = ({
+  open,
+  subscriptionOptions,
+  onClose,
+  onSubmit,
+  isLoadingSubscriptionOptions,
+  isSubmitting = false,
+}) => {
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle
@@ -50,6 +54,7 @@ const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = fa
           merchantPrimaryMobileNumber: '',
           merchantSecondaryMobileNumber: '',
           merchantNicNumber: '',
+          merchantSubscription: null,
           merchantMailingAddress: '',
           merchantIsActive: true,
         }}
@@ -112,6 +117,7 @@ const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = fa
                       labelId="status-select-label"
                       id="status-select"
                       name="merchantType"
+                      label="Merchant Type"
                       value={values.merchantType}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -130,6 +136,7 @@ const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = fa
                 <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     label="Primary Mobile Number"
+                    name="merchantPrimaryMobileNumber"
                     autoComplete="off"
                     placeholder="xxxxxxxxx"
                     fullWidth
@@ -144,6 +151,7 @@ const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = fa
                       const value = e.target.value.replace(/\D/g, '');
                       setFieldValue('merchantPrimaryMobileNumber', value);
                     }}
+                    onBlur={handleBlur}
                     value={commonUtil.formatPhoneNumber(values.merchantPrimaryMobileNumber)}
                     error={Boolean(
                       touched.merchantPrimaryMobileNumber && errors.merchantPrimaryMobileNumber
@@ -186,6 +194,32 @@ const MerchantRegistrationDialog = ({ open, onClose, onSubmit, isSubmitting = fa
                     error={Boolean(touched.merchantNicNumber && errors.merchantNicNumber)}
                     helperText={touched.merchantNicNumber && errors.merchantNicNumber}
                   />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <FormControl fullWidth>
+                    <Autocomplete
+                      options={subscriptionOptions}
+                      disabled={isLoadingSubscriptionOptions}
+                      value={
+                        subscriptionOptions.find(
+                          (opt) => opt._id === values.merchantSubscription
+                        ) || null
+                      }
+                      getOptionLabel={(option) => option.subPlanName}
+                      onChange={(e, value) =>
+                        setFieldValue('merchantSubscription', value?._id ?? null)
+                      }
+                      renderInput={(params) => (
+                        <TextField required label="Subscription Plan" {...params} />
+                      )}
+                    />
+
+                    <FormHelperText
+                      error={touched.merchantSubscription && errors.merchantSubscription}
+                    >
+                      {touched.merchantSubscription && errors.merchantSubscription}
+                    </FormHelperText>
+                  </FormControl>
                 </Grid>
                 {values.merchantType === 'carpenter' && (
                   <Grid size={12}>

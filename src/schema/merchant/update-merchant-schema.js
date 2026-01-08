@@ -33,6 +33,8 @@ const updateMerchantSchema = yup.object({
     .required('NIC number is required')
     .transform((value) => value?.trim()),
 
+  merchantSubscription: yup.string().required('Subscription is required'),
+
   merchantMailingAddress: yup
     .string()
     .max(500, 'Address must be less than 500 characters')

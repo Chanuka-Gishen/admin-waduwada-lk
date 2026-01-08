@@ -15,13 +15,13 @@ const registerMerchantSchema = yup.object({
 
   merchantPrimaryMobileNumber: yup
     .string()
-    .transform(value => value ? value.replace(/\D/g, '') : value)
+    .transform((value) => (value ? value.replace(/\D/g, '') : value))
     .matches(/^7\d{8}$/, 'Primary mobile number must be 9 digits starting with 7')
     .required('Primary mobile number is required'),
 
   merchantSecondaryMobileNumber: yup
     .string()
-    .transform(value => value ? value.replace(/\D/g, '') : value)
+    .transform((value) => (value ? value.replace(/\D/g, '') : value))
     .matches(/^[17]\d{8}$/, 'Secondary mobile number must be 9 digits starting with 1 or 7')
     .nullable()
     .transform((value) => value || null),
@@ -34,6 +34,8 @@ const registerMerchantSchema = yup.object({
     )
     .required('NIC number is required')
     .transform((value) => value?.trim()),
+
+  merchantSubscription: yup.string().required('Subscription is required'),
 
   merchantMailingAddress: yup
     .string()

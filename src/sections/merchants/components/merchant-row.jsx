@@ -5,22 +5,32 @@ const MerchantRow = ({ data, onRowClick }) => {
   return (
     <Fragment>
       {data.map((row, index) => (
-        <TableRow key={index} hover>
-          <TableCell>{data.merchantFullName}</TableCell>
+        <TableRow key={index} hover sx={{ cursor: 'pointer' }}>
+          <TableCell>{row.merchantFullName}</TableCell>
+          <TableCell>{row.merchantType}</TableCell>
           <TableCell>
             <Chip
-              color={data.merchantIsVerified ? 'success' : 'warning'}
-              label={data.merchantIsVerified ? 'Verified' : 'Not Verified'}
+              color={row.merchantIsVerified ? 'success' : 'warning'}
+              label={row.merchantIsVerified ? 'Verified' : 'Not Verified'}
+              sx={{ color: 'white' }}
             />
           </TableCell>
-          <TableCell>{data.merchantEmail ? data.merchantEmail : <em>Not Provided</em>}</TableCell>
+          <TableCell>{row.merchantEmail ? row.merchantEmail : <em>Not Provided</em>}</TableCell>
           <TableCell>
-            {data.merchantPrimaryMobile ? data.merchantPrimaryMobile : <em>Not Provided</em>}
+            {row.merchantPrimaryMobileNumber ? (
+              row.merchantPrimaryMobileNumber
+            ) : (
+              <em>Not Provided</em>
+            )}
           </TableCell>
           <TableCell>
-            {data.merchantSecondaryMobile ? data.merchantSecondaryMobile : <em>Not Provided</em>}
+            {row.merchantSecondaryMobileNumber ? (
+              row.merchantSecondaryMobileNumber
+            ) : (
+              <em>Not Provided</em>
+            )}
           </TableCell>
-          <TableCell>{data.merchantNicNumber}</TableCell>
+          <TableCell>{row.merchantNicNumber}</TableCell>
         </TableRow>
       ))}
     </Fragment>
