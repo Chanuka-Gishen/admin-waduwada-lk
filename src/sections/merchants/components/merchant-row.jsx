@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { TableRow, TableCell, Chip } from '@mui/material';
+import { getUserRoleLabel } from 'src/utils/common-util';
 
 const MerchantRow = ({ data, onRowClick }) => {
   return (
@@ -7,7 +8,7 @@ const MerchantRow = ({ data, onRowClick }) => {
       {data.map((row, index) => (
         <TableRow key={index} hover sx={{ cursor: 'pointer' }}>
           <TableCell>{row.merchantFullName}</TableCell>
-          <TableCell>{row.merchantType}</TableCell>
+          <TableCell>{getUserRoleLabel(row.merchantRole)}</TableCell>
           <TableCell>
             <Chip
               color={row.merchantIsVerified ? 'success' : 'warning'}

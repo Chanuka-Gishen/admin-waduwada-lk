@@ -19,10 +19,10 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 4101,
+    port: 4102,
   },
   preview: {
-    port: 4101,
+    port: 4102,
   },
   jsx: {
     factory: 'React.createElement',

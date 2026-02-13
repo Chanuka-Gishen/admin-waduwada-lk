@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 
-import common_util from 'src/utils/common-util';
-
 import { SNACKBAR_MESSAGE } from 'src/constants/snackbar-constants';
 import responseUtil from 'src/utils/responseUtil';
 import useAuthStore from 'src/store/auth-store';
 import useSnackbarStore from 'src/store/notification-store';
 import { NAVIGATION_ROUTES } from 'src/routes/navigation-routes';
+import { isUndefinedOrNull } from 'src/utils/common-util';
 
 export const backendAuthApi = axios.create({
   // one minute timeout
@@ -38,7 +37,7 @@ backendAuthApi.interceptors.response.use(
 
       if (error.response) {
         const errorResponse = error.response.data;
-        if (!common_util.isUndefinedOrNull(errorResponse.responseMessage)) {
+        if (!isUndefinedOrNull(errorResponse.responseMessage)) {
           errorMessage = errorResponse.responseMessage;
           errorCode = errorResponse.responseCode;
         }

@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import commonUtil from 'src/utils/common-util';
+import { getSubscriptionDiscountedPrice } from 'src/utils/common-util';
 import { formatCurrency } from 'src/utils/format-number';
 import {
   SUB_PLAN_DURATION_ANNUAL,
@@ -31,7 +31,7 @@ import {
 } from 'src/constants/subscription-constants';
 
 const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
-  const discountedPrices = commonUtil.getSubscriptionDiscountedPrice(plan);
+  const discountedPrices = getSubscriptionDiscountedPrice(plan);
   const monthlyPrice =
     plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)?.price || 0;
   const yearlyPrice =

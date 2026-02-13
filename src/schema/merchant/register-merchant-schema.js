@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { MERCHANT_TYPES } from 'src/constants/merchant-constants';
+import { MERCHANT_TYPES, SHOP_SPECIALITIES } from 'src/constants/merchant-constants';
 
 const registerMerchantSchema = yup.object({
   merchantFirstName: yup.string().required('First name is required'),
@@ -7,11 +7,6 @@ const registerMerchantSchema = yup.object({
   merchantLastName: yup.string().required('Last name is required'),
 
   merchantEmail: yup.string().email('Please provide a valid email address'),
-
-  merchantType: yup
-    .string()
-    .oneOf(MERCHANT_TYPES, 'Please select a valid merchant type')
-    .required('Merchant type is required'),
 
   merchantPrimaryMobileNumber: yup
     .string()
@@ -35,8 +30,6 @@ const registerMerchantSchema = yup.object({
     .required('NIC number is required')
     .transform((value) => value?.trim()),
 
-  merchantSubscription: yup.string().required('Subscription is required'),
-
   merchantMailingAddress: yup
     .string()
     .max(500, 'Address must be less than 500 characters')
@@ -45,6 +38,44 @@ const registerMerchantSchema = yup.object({
       then: (schema) => schema.required('Address is required for carpenters'),
       otherwise: (schema) => schema.nullable().transform((value) => value || null),
     }),
+
+  shopName: yup
+    .string()
+    .trim()
+    .min(2, 'Shop name must be at least 2 characters')
+    .max(100, 'Shop name must be less than 100 characters')
+    .required('Shop name is required'),
+
+  shopType: yup
+    .string()
+    .oneOf(MERCHANT_TYPES, 'Please select a valid shop type')
+    .required('Shop type is required'),
+
+  shopIsAcceptingCustomOrders: yup.boolean().default(false),
+
+  shopSpecialties: yup
+    .array()
+    .of(yup.string().oneOf(SHOP_SPECIALITIES, 'Invalid specialty selected'))
+    .min(1, 'At least one specialty is required')
+    .max(10, 'Maximum 10 specialties allowed')
+    .required('Shop specialties are required'),
+
+  shopSubscription: yup.string().required('Subscription is required'),
+
+  shopLocationCity: yup
+    .string()
+    .trim()
+    .min(2, 'City must be at least 2 characters')
+    .max(100, 'City must be less than 100 characters')
+    .matches(/^[A-Za-z\s-']+$/, 'City can only contain letters, spaces, hyphens and apostrophes')
+    .required('City is required'),
+
+  shopLocationStreet: yup
+    .string()
+    .trim()
+    .min(2, 'Street must be at least 2 characters')
+    .max(200, 'Street must be less than 200 characters')
+    .required('Street is required'),
 });
 
 export default registerMerchantSchema;

@@ -7,22 +7,24 @@ import {
   Button,
   TextField,
   MenuItem,
-  Box,
   Typography,
   CircularProgress,
-  FormControlLabel,
-  Switch,
   FormControl,
   InputLabel,
   Select,
   FormHelperText,
   Grid,
   Autocomplete,
+  Divider,
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { registerMerchantSchema } from 'src/schema';
-import { MERCHANT_TYP_CARPENTER, MERCHANT_TYP_SHOP_OWNER } from 'src/constants/merchant-constants';
-import commonUtil from 'src/utils/common-util';
+import {
+  MERCHANT_TYP_CARPENTER,
+  MERCHANT_TYP_SHOP_OWNER,
+  SHOP_SPECIALITIES,
+} from 'src/constants/merchant-constants';
+import { formatPhoneNumber } from 'src/utils/common-util';
 
 const MerchantRegistrationDialog = ({
   open,
@@ -50,13 +52,18 @@ const MerchantRegistrationDialog = ({
           merchantFirstName: '',
           merchantLastName: '',
           merchantEmail: '',
-          merchantType: '',
           merchantPrimaryMobileNumber: '',
           merchantSecondaryMobileNumber: '',
           merchantNicNumber: '',
-          merchantSubscription: null,
           merchantMailingAddress: '',
           merchantIsActive: true,
+          shopIsAcceptingCustomOrders: false,
+          shopName: '',
+          shopSubscription: null,
+          shopType: '',
+          shopSpecialties: [],
+          shopLocationCity: '',
+          shopLocationStreet: '',
         }}
         validationSchema={registerMerchantSchema}
         onSubmit={(values, { resetForm }) => {
@@ -77,6 +84,128 @@ const MerchantRegistrationDialog = ({
           <Form onSubmit={handleSubmit}>
             <DialogContent dividers sx={{ pt: 2 }}>
               <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    label="Shop Name"
+                    autoComplete="off"
+                    fullWidth
+                    required
+                    {...getFieldProps('shopName')}
+                    error={Boolean(touched.shopName && errors.shopName)}
+                    helperText={touched.shopName && errors.shopName}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <FormControl fullWidth required>
+                    <InputLabel id="status-select-label">Shop Type</InputLabel>
+                    <Select
+                      labelId="status-select-label"
+                      id="status-select"
+                      name="shopType"
+                      label="Shop Type"
+                      value={values.shopType}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem value="">
+                        <em>Select type</em>
+                      </MenuItem>
+                      <MenuItem value={MERCHANT_TYP_CARPENTER}>Carpenter</MenuItem>
+                      <MenuItem value={MERCHANT_TYP_SHOP_OWNER}>Shop Owner</MenuItem>
+                    </Select>
+                    <FormHelperText error={touched.shopType && errors.shopType}>
+                      {touched.shopType && errors.shopType}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid size={12}>
+                  <FormControl fullWidth required>
+                    <Autocomplete
+                      multiple
+                      id="status-select"
+                      options={SHOP_SPECIALITIES}
+                      getOptionLabel={(option) => option}
+                      filterSelectedOptions
+                      value={values.shopSpecialties}
+                      onChange={(event, newValue) => {
+                        setFieldValue('shopSpecialties', newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} label="Shop Specialties" />}
+                    />
+                    <FormHelperText error={touched.shopSpecialties && errors.shopSpecialties}>
+                      {touched.shopSpecialties && errors.shopSpecialties}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <FormControl fullWidth>
+                    <Autocomplete
+                      options={subscriptionOptions}
+                      disabled={isLoadingSubscriptionOptions}
+                      value={
+                        subscriptionOptions.find((opt) => opt._id === values.shopSubscription) ||
+                        null
+                      }
+                      getOptionLabel={(option) => option.subPlanName}
+                      onChange={(e, value) => setFieldValue('shopSubscription', value?._id ?? null)}
+                      renderInput={(params) => (
+                        <TextField required label="Subscription Plan" {...params} />
+                      )}
+                    />
+
+                    <FormHelperText error={touched.shopSubscription && errors.shopSubscription}>
+                      {touched.shopSubscription && errors.shopSubscription}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    label="City"
+                    autoComplete="off"
+                    fullWidth
+                    required
+                    {...getFieldProps('shopLocationCity')}
+                    error={Boolean(touched.shopLocationCity && errors.shopLocationCity)}
+                    helperText={touched.shopLocationCity && errors.shopLocationCity}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <TextField
+                    label="Street"
+                    autoComplete="off"
+                    fullWidth
+                    required
+                    {...getFieldProps('shopLocationStreet')}
+                    error={Boolean(touched.shopLocationStreet && errors.shopLocationStreet)}
+                    helperText={touched.shopLocationStreet && errors.shopLocationStreet}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <FormControl fullWidth required>
+                    <InputLabel id="status-select-label">Is Accepting Custom Orders</InputLabel>
+                    <Select
+                      labelId="status-select-label"
+                      id="status-select"
+                      name="shopIsAcceptingCustomOrders"
+                      value={values.shopIsAcceptingCustomOrders}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <MenuItem value={true}>Yes</MenuItem>
+                      <MenuItem value={false}>No</MenuItem>
+                    </Select>
+                    <FormHelperText
+                      error={
+                        touched.shopIsAcceptingCustomOrders && errors.shopIsAcceptingCustomOrders
+                      }
+                    >
+                      {touched.shopIsAcceptingCustomOrders && errors.shopIsAcceptingCustomOrders}
+                    </FormHelperText>
+                  </FormControl>
+                </Grid>
+                <Grid size={12}>
+                  <Divider textAlign="center">Merchant Info</Divider>
+                </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     label="First Name"
@@ -110,29 +239,7 @@ const MerchantRegistrationDialog = ({
                     helperText={touched.merchantEmail && errors.merchantEmail}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="status-select-label">Merchant Type</InputLabel>
-                    <Select
-                      labelId="status-select-label"
-                      id="status-select"
-                      name="merchantType"
-                      label="Merchant Type"
-                      value={values.merchantType}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      <MenuItem value="">
-                        <em>Select type</em>
-                      </MenuItem>
-                      <MenuItem value={MERCHANT_TYP_CARPENTER}>Carpenter</MenuItem>
-                      <MenuItem value={MERCHANT_TYP_SHOP_OWNER}>Shop Owner</MenuItem>
-                    </Select>
-                    <FormHelperText error={touched.merchantType && errors.merchantType}>
-                      {touched.merchantType && errors.merchantType}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
+
                 <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     label="Primary Mobile Number"
@@ -152,7 +259,7 @@ const MerchantRegistrationDialog = ({
                       setFieldValue('merchantPrimaryMobileNumber', value);
                     }}
                     onBlur={handleBlur}
-                    value={commonUtil.formatPhoneNumber(values.merchantPrimaryMobileNumber)}
+                    value={formatPhoneNumber(values.merchantPrimaryMobileNumber)}
                     error={Boolean(
                       touched.merchantPrimaryMobileNumber && errors.merchantPrimaryMobileNumber
                     )}
@@ -174,7 +281,7 @@ const MerchantRegistrationDialog = ({
                       },
                     }}
                     {...getFieldProps('merchantSecondaryMobileNumber')}
-                    value={commonUtil.formatPhoneNumber(values.merchantSecondaryMobileNumber)}
+                    value={formatPhoneNumber(values.merchantSecondaryMobileNumber)}
                     error={Boolean(
                       touched.merchantSecondaryMobileNumber && errors.merchantSecondaryMobileNumber
                     )}
@@ -195,33 +302,8 @@ const MerchantRegistrationDialog = ({
                     helperText={touched.merchantNicNumber && errors.merchantNicNumber}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, md: 6 }}>
-                  <FormControl fullWidth>
-                    <Autocomplete
-                      options={subscriptionOptions}
-                      disabled={isLoadingSubscriptionOptions}
-                      value={
-                        subscriptionOptions.find(
-                          (opt) => opt._id === values.merchantSubscription
-                        ) || null
-                      }
-                      getOptionLabel={(option) => option.subPlanName}
-                      onChange={(e, value) =>
-                        setFieldValue('merchantSubscription', value?._id ?? null)
-                      }
-                      renderInput={(params) => (
-                        <TextField required label="Subscription Plan" {...params} />
-                      )}
-                    />
 
-                    <FormHelperText
-                      error={touched.merchantSubscription && errors.merchantSubscription}
-                    >
-                      {touched.merchantSubscription && errors.merchantSubscription}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                {values.merchantType === 'carpenter' && (
+                {values.shopType === 'carpenter' && (
                   <Grid size={12}>
                     <TextField
                       label="Address"

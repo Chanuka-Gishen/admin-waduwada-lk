@@ -14,6 +14,7 @@ import { BACKEND_API } from 'src/axios/constant/backend-api';
 import useAuthStore from 'src/store/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { NAVIGATION_ROUTES } from 'src/routes/navigation-routes';
+import { getUserRoleLabel } from 'src/utils/common-util';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,7 @@ export default function AccountPopover() {
             {user.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user.userRole}
+            {getUserRoleLabel(user.userRole)}
           </Typography>
         </Box>
 

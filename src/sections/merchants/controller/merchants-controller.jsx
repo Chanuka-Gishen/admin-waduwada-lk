@@ -7,7 +7,7 @@ import useSubscription from 'src/hooks/use-subscription';
 const MerchantsController = () => {
   const tableColumns = [
     'Name',
-    'Type',
+    'Role',
     'Is Verified',
     'Email',
     'Primary Mobile',

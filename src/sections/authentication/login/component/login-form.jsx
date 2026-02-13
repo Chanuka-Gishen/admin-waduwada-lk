@@ -1,10 +1,9 @@
 import React from 'react';
 import { Button, Stack, TextField } from '@mui/material';
-import PropTypes from 'prop-types';
 import { FormikProvider } from 'formik';
 
 import { PasswordField } from 'src/components/password-field/password-field';
-import commonUtil from 'src/utils/common-util';
+import { stringIsEmptyOrSpaces } from 'src/utils/common-util';
 
 const LoginForm = ({
   formik,
@@ -64,7 +63,7 @@ const LoginForm = ({
           <Button
             fullWidth
             loading={isLoadingVerifyEmail}
-            disabled={isLoadingVerifyEmail || commonUtil.stringIsEmptyOrSpaces(values.email)}
+            disabled={isLoadingVerifyEmail || stringIsEmptyOrSpaces(values.email)}
             size="large"
             variant="contained"
             color="inherit"

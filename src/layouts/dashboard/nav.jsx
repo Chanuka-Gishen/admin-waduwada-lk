@@ -18,6 +18,7 @@ import navConfig from './config-navigation';
 import { NAVBAR_ITEMS } from './common/navigation-names';
 import useAuthStore from 'src/store/auth-store';
 import { Badge } from '@mui/material';
+import { getUserRoleLabel } from 'src/utils/common-util';
 
 // ----------------------------------------------------------------------
 
@@ -98,7 +99,7 @@ export default function Nav({ openNav, onCloseNav }) {
         <Typography variant="subtitle2">{user.name}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {user.userRole}
+          {getUserRoleLabel(user.userRole)}
         </Typography>
       </Box>
     </Box>

@@ -2,27 +2,15 @@ import {
   SUB_PLAN_DURATION_ANNUAL,
   SUB_PLAN_DURATION_MONTHLY,
 } from 'src/constants/subscription-constants';
+import { USER_ROLE } from 'src/constants/user-role';
 
 /**
  * Returns true if a value is undefined
  * @param value
  * @returns {boolean}
  */
-const isUndefinedOrNull = (value) => {
+export const isUndefinedOrNull = (value) => {
   return typeof value === 'undefined' || value === null;
-};
-
-/**
- * Rounds a number to the provided no. of decimal places
- *
- * @param value Number to be rounded
- * @param decimalPlaces No. of decimal places. By default it's 2
- * @return {number} Rounded Number
- */
-const roundNumber = (value, decimalPlaces = 2) => {
-  if (isNaN(value)) return 0;
-  const factorOfTen = Math.pow(10, decimalPlaces);
-  return Math.round((value + Number.EPSILON) * factorOfTen) / factorOfTen;
 };
 
 /**
@@ -31,71 +19,19 @@ const roundNumber = (value, decimalPlaces = 2) => {
  * @param string String
  * @return {boolean}
  */
-const stringIsEmptyOrSpaces = (string) => {
+export const stringIsEmptyOrSpaces = (string) => {
   string = string.toString();
   return isUndefinedOrNull(string) || string.match(/^ *$/) !== null;
 };
 
-const getDirectImageLink = (imageId) => {
-  if (imageId) {
-    return `https://drive.google.com/thumbnail?id=${imageId}`;
-    //return `https://drive.google.com/uc?id=${imageId}`;
-  }
-  // If the link doesn't match the expected pattern
-  return null;
-};
-
-const calculateMonthDifference = (date) => {
-  const scheduledDate = new Date(date);
-
-  const currentDate = new Date();
-
-  // Calculate the difference in months
-  const differenceInMs = scheduledDate.getTime() - currentDate.getTime();
-
-  // Determine if the date is within the same month
-  return differenceInMs <= 30 * 24 * 60 * 60 * 1000;
-};
-
-const validateFormik = (formik) => {
-  // Flatten the initialValues structure to include nested paths
-  const fieldsToValidateAndTouch = [];
-
-  // Recursive function to handle nested objects
-  const flattenObject = (obj, prefix = '') => {
-    Object.keys(obj).forEach((key) => {
-      const path = prefix ? `${prefix}.${key}` : key;
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        flattenObject(obj[key], path);
-      } else {
-        fieldsToValidateAndTouch.push(path);
-      }
-    });
-  };
-
-  flattenObject(formik.initialValues);
-
-  // Validate the form
-  formik.validateForm().then(() => {
-    // Set touched for all fields (including nested paths)
-    const touchedFields = {};
-    fieldsToValidateAndTouch.forEach((field) => {
-      touchedFields[field] = true;
-    });
-    formik.setTouched(touchedFields);
-  });
-
-  return;
-};
-
-const formatPhoneNumber = (value) => {
+export const formatPhoneNumber = (value) => {
   const cleaned = value.replace(/\D/g, '');
   if (cleaned.length <= 3) return cleaned;
   if (cleaned.length <= 6) return `${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
   return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 5)} ${cleaned.slice(5, 9)}`;
 };
 
-const getSubscriptionDiscountedPrice = (plan) => {
+export const getSubscriptionDiscountedPrice = (plan) => {
   const monthly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY);
   const yearly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL);
 
@@ -105,14 +41,7 @@ const getSubscriptionDiscountedPrice = (plan) => {
   };
 };
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
-export default {
-  isUndefinedOrNull,
-  roundNumber,
-  stringIsEmptyOrSpaces,
-  getDirectImageLink,
-  getSubscriptionDiscountedPrice,
-  calculateMonthDifference,
-  validateFormik,
-  formatPhoneNumber,
+export const getUserRoleLabel = (value) => {
+  const option = USER_ROLE.find((option) => option.value === value);
+  return option ? option.label : 'Unknown';
 };
