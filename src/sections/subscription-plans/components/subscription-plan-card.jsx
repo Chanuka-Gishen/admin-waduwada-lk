@@ -33,25 +33,24 @@ import {
 const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
   const discountedPrices = getSubscriptionDiscountedPrice(plan);
   const monthlyPrice =
-    plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)?.price || 0;
-  const yearlyPrice =
-    plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL)?.price || 0;
-  const hasDiscount = plan.subPlanPricing.some((p) => p.isDiscountActive);
+    plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)?.price || 0;
+  const yearlyPrice = plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL)?.price || 0;
+  const hasDiscount = plan.pricing.some((p) => p.isDiscountActive);
   const isFree = monthlyPrice === 0 && yearlyPrice === 0;
 
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
+    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
       <Card
         sx={{
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          border: plan.isActive ? '2px solid' : '1px solid',
-          borderColor: plan.isActive ? 'primary.main' : 'divider',
+          border: plan.is_active ? '2px solid' : '1px solid',
+          borderColor: plan.is_active ? 'primary.main' : 'divider',
         }}
       >
         {/* Popular Badge */}
-        {plan.subPlanName === 'Enterprise' && (
+        {plan.name === 'Enterprise' && (
           <Badge
             badgeContent={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -92,16 +91,16 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
             sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}
           >
             <Typography variant="h5" component="h2" fontWeight="bold">
-              {plan.subPlanName}
+              {plan.name}
             </Typography>
             <FormControlLabel
-              control={<Switch readOnly={true} checked={plan.isActive} size="small" di />}
+              control={<Switch readOnly={true} checked={plan.is_active} size="small" di />}
               label={
                 <Typography
                   variant="caption"
-                  color={plan.isActive ? 'success.main' : 'text.secondary'}
+                  color={plan.is_active ? 'success.main' : 'text.secondary'}
                 >
-                  {plan.isActive ? 'Active' : 'Inactive'}
+                  {plan.is_active ? 'Active' : 'Inactive'}
                 </Typography>
               }
               labelPlacement="end"
@@ -110,7 +109,7 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
 
           {/* Description */}
           <Typography color="text.secondary" paragraph>
-            {plan.subPlanDescription}
+            {plan.description}
           </Typography>
 
           {/* Pricing */}
@@ -123,7 +122,7 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center' }}>
                     {monthlyPrice > 0 &&
-                      plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)
+                      plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)
                         ?.isDiscountActive && (
                         <Typography
                           variant="body2"
@@ -151,8 +150,8 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center' }}>
                     {yearlyPrice > 0 &&
-                      plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL)
-                        ?.isDiscountActive && (
+                      plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL)
+                        ?.is_discount_active && (
                         <Typography
                           variant="body2"
                           color="text.secondary"
@@ -185,12 +184,12 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
             Features ({plan.features.length})
           </Typography>
           <List dense>
-            {plan.features.slice(0, 8).map((feature, idx) => (
+            {plan.features.slice(0, 8).map((item, idx) => (
               <ListItem key={idx} disablePadding sx={{ py: 0.5 }}>
                 <ListItemIcon sx={{ minWidth: 32 }}>
                   <CheckCircleIcon color="success" fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary={<Typography variant="body2">{feature}</Typography>} />
+                <ListItemText primary={<Typography variant="body2">{item.feature}</Typography>} />
               </ListItem>
             ))}
             {plan.features.length > 8 && (
@@ -212,7 +211,7 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
         <CardActions sx={{ p: 2, justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="caption" color="text.secondary">
-              Sort Order: {plan.sortOrder}
+              Sort Order: {plan.sort_order}
             </Typography>
           </Box>
           <Box>

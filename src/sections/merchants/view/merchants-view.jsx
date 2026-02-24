@@ -1,6 +1,5 @@
-import { Button, Container, Grid, Paper, Stack, TextField, Typography } from '@mui/material';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import MerchantRegistrationDialog from '../components/register-merchant-form';
+import { Container, Grid, Paper, TextField, Typography } from '@mui/material';
+
 import { CustomTable } from 'src/components/custom-table/custom-table';
 import MerchantRow from '../components/merchant-row';
 
@@ -9,30 +8,15 @@ export const MerchantsView = ({
   merchants,
   merchantCount,
   searchParams,
-  subscriptionOptions,
   pagination,
-  isOpenRegisterForm,
   isLoadingMerchants,
-  isLoadingSubscriptionOptions,
-  isLoadingMerchantRegister,
   handleChangeSearch,
-  handleToggleRegisterForm,
-  handleRegisterMerchant,
 }) => {
   return (
     <Container maxWidth="xl">
       <Grid container spacing={2}>
         <Grid size={12}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h4">Manage Merchants</Typography>
-            <Button
-              variant="outlined"
-              startIcon={<AddBusinessIcon />}
-              onClick={handleToggleRegisterForm}
-            >
-              Add New
-            </Button>
-          </Stack>
+          <Typography variant="h4">Manage Merchant Users</Typography>
         </Grid>
         <Grid size={{ xs: 12, md: 3 }}>
           <TextField
@@ -61,16 +45,6 @@ export const MerchantsView = ({
           </Paper>
         </Grid>
       </Grid>
-      {isOpenRegisterForm && (
-        <MerchantRegistrationDialog
-          open={isOpenRegisterForm}
-          subscriptionOptions={subscriptionOptions}
-          isLoadingSubscriptionOptions={isLoadingSubscriptionOptions}
-          isSubmitting={isLoadingMerchantRegister}
-          onClose={handleToggleRegisterForm}
-          onSubmit={handleRegisterMerchant}
-        />
-      )}
     </Container>
   );
 };

@@ -4,6 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import PeopleIcon from '@mui/icons-material/People';
 
 import { USER_ROLE_ADMIN, USER_ROLE_SUPER_ADMIN } from 'src/constants/user-role';
 
@@ -16,10 +17,17 @@ const navConfig = [
     permissions: [USER_ROLE_SUPER_ADMIN, USER_ROLE_ADMIN],
   },
   {
-    title: 'Merchants',
+    title: 'Merchant Shops',
+    name: NAVBAR_ITEMS.SHOPS,
+    path: NAVBAR_ITEMS.SHOPS,
+    icon: <StorefrontIcon />,
+    permissions: [USER_ROLE_SUPER_ADMIN, USER_ROLE_ADMIN],
+  },
+  {
+    title: 'Shop Users',
     name: NAVBAR_ITEMS.MERCHANTS,
     path: NAVBAR_ITEMS.MERCHANTS,
-    icon: <StorefrontIcon />,
+    icon: <PeopleIcon />,
     permissions: [USER_ROLE_SUPER_ADMIN, USER_ROLE_ADMIN],
   },
   {

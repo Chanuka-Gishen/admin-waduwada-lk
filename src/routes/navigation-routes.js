@@ -13,6 +13,9 @@ export const NAVIGATION_ROUTES = {
     base: '/dashboard',
     main: '',
   },
+  shops: {
+    base: '/shops',
+  },
   merchants: {
     base: '/merchants',
   },

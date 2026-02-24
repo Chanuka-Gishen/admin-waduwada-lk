@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { SubscriptionPlansView } from '../view/subscription-plans-view';
 import useSubscription from 'src/hooks/use-subscription';
 import {
+  SUB_PLAN_DISCOUNT_TYP_FLAT,
   SUB_PLAN_DURATION_ANNUAL,
   SUB_PLAN_DURATION_MONTHLY,
 } from 'src/constants/subscription-constants';
@@ -27,7 +28,7 @@ const SubscriptionPlansController = () => {
         price: 0,
         isDiscountActive: false,
         discountAmount: 0,
-        discountType: 'flat',
+        discountType: SUB_PLAN_DISCOUNT_TYP_FLAT,
         discountStartDate: null,
         discountEndDate: null,
       },
@@ -36,7 +37,7 @@ const SubscriptionPlansController = () => {
         price: 0,
         isDiscountActive: false,
         discountAmount: 0,
-        discountType: 'flat',
+        discountType: SUB_PLAN_DISCOUNT_TYP_FLAT,
         discountStartDate: null,
         discountEndDate: null,
       },

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { USER_ROLE } from 'src/constants/user-role';
+import { USER_ROLE_ADMIN, USER_ROLE_SUPER_ADMIN } from 'src/constants/user-role';
 
 const adminSchema = Yup.object().shape({
   adminFirstName: Yup.string()
@@ -22,7 +22,7 @@ const adminSchema = Yup.object().shape({
     .optional(),
 
   adminRole: Yup.string()
-    .oneOf([USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN], 'Invalid role')
+    .oneOf([USER_ROLE_ADMIN, USER_ROLE_SUPER_ADMIN], 'Invalid role')
     .optional(),
 
   adminIsActive: Yup.boolean().optional(),

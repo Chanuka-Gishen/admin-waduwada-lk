@@ -17,7 +17,7 @@ import Slide from '@mui/material/Slide';
 import { Formik } from 'formik';
 
 import adminSchema from 'src/schema/admin/admin-schema';
-import { USER_ROLE } from 'src/constants/user-role';
+import { USER_ROLE, USER_ROLE_ADMIN } from 'src/constants/user-role';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -40,10 +40,9 @@ export const AdminRegisterForm = ({ open, isLoading, handleOpenClose, handleConf
           adminFirstName: '',
           adminLastName: '',
           adminEmail: '',
-          adminRole: USER_ROLE.ADMIN,
+          adminRole: USER_ROLE_ADMIN,
           adminIsActive: true,
         }}
-        enableReinitialize
         validationSchema={adminSchema}
         onSubmit={(values) => {
           handleConfirm(values);
@@ -58,7 +57,6 @@ export const AdminRegisterForm = ({ open, isLoading, handleOpenClose, handleConf
           handleBlur,
           handleSubmit,
           getFieldProps,
-          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <DialogContent>
@@ -119,9 +117,9 @@ export const AdminRegisterForm = ({ open, isLoading, handleOpenClose, handleConf
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      {[USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN].map((role, index) => (
-                        <MenuItem key={index} value={role}>
-                          {role}
+                      {USER_ROLE.map((role, index) => (
+                        <MenuItem key={index} value={role.value}>
+                          {role.label}
                         </MenuItem>
                       ))}
                     </Select>

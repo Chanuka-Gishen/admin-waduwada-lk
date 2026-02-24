@@ -26,7 +26,7 @@ import {
 } from 'src/constants/merchant-constants';
 import { formatPhoneNumber } from 'src/utils/common-util';
 
-const MerchantRegistrationDialog = ({
+const ShopRegistrationDialog = ({
   open,
   subscriptionOptions,
   onClose,
@@ -43,7 +43,7 @@ const MerchantRegistrationDialog = ({
         }}
       >
         <Typography variant="h4" component="span">
-          Register New Merchant
+          Register New Merchant Shop
         </Typography>
       </DialogTitle>
 
@@ -61,7 +61,6 @@ const MerchantRegistrationDialog = ({
           shopName: '',
           shopSubscription: null,
           shopType: '',
-          shopSpecialties: [],
           shopLocationCity: '',
           shopLocationStreet: '',
         }}
@@ -118,36 +117,17 @@ const MerchantRegistrationDialog = ({
                     </FormHelperText>
                   </FormControl>
                 </Grid>
-                <Grid size={12}>
-                  <FormControl fullWidth required>
-                    <Autocomplete
-                      multiple
-                      id="status-select"
-                      options={SHOP_SPECIALITIES}
-                      getOptionLabel={(option) => option}
-                      filterSelectedOptions
-                      value={values.shopSpecialties}
-                      onChange={(event, newValue) => {
-                        setFieldValue('shopSpecialties', newValue);
-                      }}
-                      renderInput={(params) => <TextField {...params} label="Shop Specialties" />}
-                    />
-                    <FormHelperText error={touched.shopSpecialties && errors.shopSpecialties}>
-                      {touched.shopSpecialties && errors.shopSpecialties}
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
                   <FormControl fullWidth>
                     <Autocomplete
                       options={subscriptionOptions}
                       disabled={isLoadingSubscriptionOptions}
                       value={
-                        subscriptionOptions.find((opt) => opt._id === values.shopSubscription) ||
+                        subscriptionOptions.find((opt) => opt.id === values.shopSubscription) ||
                         null
                       }
-                      getOptionLabel={(option) => option.subPlanName}
-                      onChange={(e, value) => setFieldValue('shopSubscription', value?._id ?? null)}
+                      getOptionLabel={(option) => option.name}
+                      onChange={(e, value) => setFieldValue('shopSubscription', value?.id ?? null)}
                       renderInput={(params) => (
                         <TextField required label="Subscription Plan" {...params} />
                       )}
@@ -233,6 +213,7 @@ const MerchantRegistrationDialog = ({
                     label="Email"
                     autoComplete="off"
                     type="email"
+                    required
                     fullWidth
                     {...getFieldProps('merchantEmail')}
                     error={Boolean(touched.merchantEmail && errors.merchantEmail)}
@@ -361,4 +342,4 @@ const MerchantRegistrationDialog = ({
   );
 };
 
-export default MerchantRegistrationDialog;
+export default ShopRegistrationDialog;

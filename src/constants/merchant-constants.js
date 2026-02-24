@@ -1,5 +1,5 @@
-export const MERCHANT_TYP_CARPENTER = 'carpenter';
-export const MERCHANT_TYP_SHOP_OWNER = 'shop_owner';
+export const MERCHANT_TYP_CARPENTER = 'CARPENTER';
+export const MERCHANT_TYP_SHOP_OWNER = 'SHOP_OWNER';
 
 export const MERCHANT_TYPES = [MERCHANT_TYP_CARPENTER, MERCHANT_TYP_SHOP_OWNER];
 

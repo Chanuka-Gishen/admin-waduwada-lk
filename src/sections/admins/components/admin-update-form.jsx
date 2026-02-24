@@ -169,15 +169,15 @@ export const AdminUpdateForm = ({
               <Button
                 onClick={() => {
                   handleOpenClose();
-                  resetForm;
+                  resetForm();
                 }}
                 disabled={isLoading}
                 variant="outlined"
               >
                 Cancel
               </Button>
-              <Button variant="contained" type="submit" disabled={isLoading} autoFocus>
-                Confirm
+              <Button variant="contained" type="submit" disabled={isLoading}>
+                {isLoading ? 'Loading...' : 'Confirm'}
               </Button>
             </DialogActions>
           </form>

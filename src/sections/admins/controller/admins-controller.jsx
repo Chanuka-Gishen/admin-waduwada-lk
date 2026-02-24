@@ -10,8 +10,8 @@ const AdminsController = () => {
     'Email',
     'Role',
     'Reset Password',
-    'Last Login At',
     'Is Active',
+    'Last Login At',
   ];
 
   const { auth } = useAuthStore();
@@ -45,13 +45,13 @@ const AdminsController = () => {
     setInitialValues(
       row
         ? {
-            id: row._id,
-            adminFirstName: row.adminFirstName,
-            adminLastName: row.adminLastName,
-            adminEmail: row.adminEmail,
-            adminRole: row.adminRole,
-            adminIsActive: row.adminIsActive,
-            isAdminFirstLogin: row.isAdminFirstLogin,
+            id: row.id,
+            adminFirstName: row.first_name,
+            adminLastName: row.last_name,
+            adminEmail: row.email,
+            adminRole: row.role,
+            adminIsActive: row.is_active,
+            isAdminFirstLogin: row.is_first_login,
           }
         : {}
     );

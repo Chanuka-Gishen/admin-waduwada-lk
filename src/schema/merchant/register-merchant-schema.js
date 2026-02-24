@@ -53,13 +53,6 @@ const registerMerchantSchema = yup.object({
 
   shopIsAcceptingCustomOrders: yup.boolean().default(false),
 
-  shopSpecialties: yup
-    .array()
-    .of(yup.string().oneOf(SHOP_SPECIALITIES, 'Invalid specialty selected'))
-    .min(1, 'At least one specialty is required')
-    .max(10, 'Maximum 10 specialties allowed')
-    .required('Shop specialties are required'),
-
   shopSubscription: yup.string().required('Subscription is required'),
 
   shopLocationCity: yup

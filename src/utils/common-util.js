@@ -32,12 +32,12 @@ export const formatPhoneNumber = (value) => {
 };
 
 export const getSubscriptionDiscountedPrice = (plan) => {
-  const monthly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY);
-  const yearly = plan.subPlanPricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL);
+  const monthly = plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY);
+  const yearly = plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_ANNUAL);
 
   return {
-    monthly: monthly?.isDiscountActive ? monthly.price - monthly.discountAmount : monthly?.price,
-    yearly: yearly?.isDiscountActive ? yearly.price - yearly.discountAmount : yearly?.price,
+    monthly: monthly?.is_discount_active ? monthly.price - monthly.discount_amount : monthly?.price,
+    yearly: yearly?.is_discount_active ? yearly.price - yearly.discount_amount : yearly?.price,
   };
 };
 
