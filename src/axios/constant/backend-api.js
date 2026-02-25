@@ -22,4 +22,6 @@ export const BACKEND_API = {
   SUBSCRIPTION_UPDATE: IP_URL + '/subscription/supAuth/update',
   SUBSCRIPTIONS: IP_URL + '/subscription/noAuth/list',
   SUBSCRIPTION_OPTIONS: IP_URL + '/subscription/supAuth/options',
+
+  SHOPS: IP_URL + '/shops/noAuth',
 };

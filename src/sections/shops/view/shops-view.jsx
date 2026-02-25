@@ -7,10 +7,13 @@ import ShopRegistrationDialog from '../components/register-shop-form';
 
 export const ShopsView = ({
   tableColumns,
+  shops,
+  shopsCount,
   pagination,
   searchParams,
   subscriptionOptions,
   isOpenRegisterForm,
+  isLoadingShops,
   isLoadingSubscriptionOptions,
   isLoadingMerchantRegister,
   handleToggleRegisterForm,
@@ -47,14 +50,14 @@ export const ShopsView = ({
           <Paper>
             <CustomTable
               columns={tableColumns}
-              documentCount={0}
-              dataLength={0}
+              documentCount={shopsCount}
+              dataLength={shops.length}
               page={pagination.page}
               limit={pagination.limit}
               handleChangePage={pagination.handleChangePage}
               handleChangeRowsPerPage={pagination.handleChangeRowsPerPage}
-              isLoading={false}
-              tableBody={<ShopRow data={[]} onRowClick={null} />}
+              isLoading={isLoadingShops}
+              tableBody={<ShopRow data={shops} onRowClick={null} />}
             />
           </Paper>
         </Grid>
