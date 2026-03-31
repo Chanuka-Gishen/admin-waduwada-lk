@@ -23,6 +23,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Formik, Form, FieldArray } from 'formik';
 import { CurrencyInput } from 'src/components/currency-input/currency-input';
 import SubscriptionPlanSchema from 'src/schema/subscription-plan/subscription-plan-schema';
+import {
+  SUB_PLAN_DISCOUNT_TYP_FLAT,
+  SUB_PLAN_DURATION_ANNUAL,
+  SUB_PLAN_DURATION_MONTHLY,
+} from 'src/constants/subscription-constants';
 
 const SubscriptionPlanForm = ({
   open,
@@ -76,7 +81,34 @@ const SubscriptionPlanForm = ({
       </DialogTitle>
 
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          name: '',
+          description: '',
+          pricing: [
+            {
+              duration: SUB_PLAN_DURATION_MONTHLY,
+              price: 0,
+              is_discount_active: false,
+              discount_amount: 0,
+              discount_type: SUB_PLAN_DISCOUNT_TYP_FLAT,
+              discount_start_date: null,
+              discount_end_date: null,
+            },
+            {
+              duration: SUB_PLAN_DURATION_ANNUAL,
+              price: 0,
+              is_discount_active: false,
+              discount_amount: 0,
+              discount_type: SUB_PLAN_DISCOUNT_TYP_FLAT,
+              discount_start_date: null,
+              discount_end_date: null,
+            },
+          ],
+          currency: 'LKR',
+          features: [],
+          is_active: true,
+          sort_order: 0,
+        }}
         validationSchema={SubscriptionPlanSchema}
         onSubmit={handleFormSubmit}
         enableReinitialize={true}
@@ -96,24 +128,24 @@ const SubscriptionPlanForm = ({
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {/* Plan Name */}
                 <TextField
-                  name="subPlanName"
+                  name="name"
                   label="Plan Name"
-                  value={values.subPlanName}
+                  value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   fullWidth
                   required
                   size="small"
-                  error={touched.subPlanName && Boolean(errors.subPlanName)}
-                  helperText={touched.subPlanName && errors.subPlanName}
+                  error={touched.name && Boolean(errors.name)}
+                  helperText={touched.name && errors.name}
                   disabled={isSubmitting}
                 />
 
                 {/* Plan Description */}
                 <TextField
-                  name="subPlanDescription"
+                  name="description"
                   label="Plan Description"
-                  value={values.subPlanDescription}
+                  value={values.description}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   fullWidth
@@ -121,8 +153,8 @@ const SubscriptionPlanForm = ({
                   required
                   rows={2}
                   size="small"
-                  error={touched.subPlanDescription && Boolean(errors.subPlanDescription)}
-                  helperText={touched.subPlanDescription && errors.subPlanDescription}
+                  error={touched.description && Boolean(errors.description)}
+                  helperText={touched.description && errors.description}
                   disabled={isSubmitting}
                 />
 
@@ -131,10 +163,10 @@ const SubscriptionPlanForm = ({
                   Pricing
                 </Typography>
 
-                <FieldArray name="subPlanPricing">
+                <FieldArray name="pricing">
                   {() => (
                     <Grid container spacing={2}>
-                      {values.subPlanPricing.map((price, index) => (
+                      {values.pricing.map((price, index) => (
                         <Grid size={{ xs: 12, md: 6 }} key={price.duration}>
                           <Box sx={{ p: 2, border: 1, borderColor: 'divider', borderRadius: 1 }}>
                             <Typography variant="subtitle2" gutterBottom>
@@ -146,14 +178,13 @@ const SubscriptionPlanForm = ({
                               required
                               label="Price"
                               size="small"
-                              {...getFieldProps(`subPlanPricing[${index}].price`)}
+                              {...getFieldProps(`pricing[${index}].price`)}
                               error={
-                                touched.subPlanPricing?.[index]?.price &&
-                                Boolean(errors.subPlanPricing?.[index]?.price)
+                                touched.pricing?.[index]?.price &&
+                                Boolean(errors.pricing?.[index]?.price)
                               }
                               helperText={
-                                touched.subPlanPricing?.[index]?.price &&
-                                errors.subPlanPricing?.[index]?.price
+                                touched.pricing?.[index]?.price && errors.pricing?.[index]?.price
                               }
                               slotProps={{ input: { inputComponent: CurrencyInput } }}
                             />
@@ -162,10 +193,10 @@ const SubscriptionPlanForm = ({
                             <FormControlLabel
                               control={
                                 <Switch
-                                  checked={values.subPlanPricing[index].isDiscountActive}
+                                  checked={values.pricing[index].is_discount_active}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      `subPlanPricing[${index}].isDiscountActive`,
+                                      `pricing[${index}].is_discount_active`,
                                       e.target.checked
                                     );
                                   }}
@@ -175,20 +206,20 @@ const SubscriptionPlanForm = ({
                               label="Enable Discount"
                             />
 
-                            {values.subPlanPricing[index].isDiscountActive && (
+                            {values.pricing[index].is_discount_active && (
                               <>
                                 <TextField
                                   fullWidth
                                   label="Discount Amount"
                                   size="small"
-                                  {...getFieldProps(`subPlanPricing[${index}].discountAmount`)}
+                                  {...getFieldProps(`pricing[${index}].discount_amount`)}
                                   error={
-                                    touched.subPlanPricing?.[index]?.discountAmount &&
-                                    Boolean(errors.subPlanPricing?.[index]?.discountAmount)
+                                    touched.pricing?.[index]?.discount_amount &&
+                                    Boolean(errors.pricing?.[index]?.discount_amount)
                                   }
                                   helperText={
-                                    touched.subPlanPricing?.[index]?.discountAmount &&
-                                    errors.subPlanPricing?.[index]?.discountAmount
+                                    touched.pricing?.[index]?.discount_amount &&
+                                    errors.pricing?.[index]?.discount_amount
                                   }
                                   slotProps={{ input: { inputComponent: CurrencyInput } }}
                                 />
@@ -197,10 +228,10 @@ const SubscriptionPlanForm = ({
                                   <FormControl fullWidth>
                                     <DatePicker
                                       label="Discount Start Date"
-                                      value={values.subPlanPricing[index].discountStartDate}
+                                      value={values.pricing[index].discount_start_date}
                                       onChange={(date) => {
                                         setFieldValue(
-                                          `subPlanPricing[${index}].discountStartDate`,
+                                          `pricing[${index}].discount_start_date`,
                                           date
                                         );
                                       }}
@@ -209,56 +240,51 @@ const SubscriptionPlanForm = ({
                                           size: 'small',
                                           fullWidth: true,
                                           error: Boolean(
-                                            errors.subPlanPricing?.[index]?.discountStartDate
+                                            errors.pricing?.[index]?.discount_start_date
                                           ),
-                                          helperText:
-                                            errors.subPlanPricing?.[index]?.discountStartDate,
+                                          helperText: errors.pricing?.[index]?.discount_start_date,
                                         },
                                       }}
                                       disabled={isSubmitting}
                                     />
                                     <FormHelperText
                                       error={
-                                        touched.subPlanPricing?.[index]?.discountStartDate &&
-                                        Boolean(errors.subPlanPricing?.[index]?.discountStartDate)
+                                        touched.pricing?.[index]?.discount_start_date &&
+                                        Boolean(errors.pricing?.[index]?.discount_start_date)
                                       }
                                     >
-                                      {touched.subPlanPricing?.[index]?.discountStartDate &&
-                                        errors.subPlanPricing?.[index]?.discountStartDate}
+                                      {touched.pricing?.[index]?.discount_start_date &&
+                                        errors.pricing?.[index]?.discount_start_date}
                                     </FormHelperText>
                                   </FormControl>
                                   <FormControl fullWidth>
                                     <DatePicker
                                       label="Discount End Date"
-                                      value={values.subPlanPricing[index].discountEndDate}
+                                      value={values.pricing[index].discount_end_date}
                                       onChange={(date) => {
-                                        setFieldValue(
-                                          `subPlanPricing[${index}].discountEndDate`,
-                                          date
-                                        );
+                                        setFieldValue(`pricing[${index}].discount_end_date`, date);
                                       }}
-                                      minDate={values.subPlanPricing[index].discountStartDate}
+                                      minDate={values.pricing[index].discount_start_date}
                                       slotProps={{
                                         textField: {
                                           size: 'small',
                                           fullWidth: true,
                                           error: Boolean(
-                                            errors.subPlanPricing?.[index]?.discountEndDate
+                                            errors.pricing?.[index]?.discount_end_date
                                           ),
-                                          helperText:
-                                            errors.subPlanPricing?.[index]?.discountEndDate,
+                                          helperText: errors.pricing?.[index]?.discount_end_date,
                                         },
                                       }}
                                       disabled={isSubmitting}
                                     />
                                     <FormHelperText
                                       error={
-                                        touched.subPlanPricing?.[index]?.discountEndDate &&
-                                        Boolean(errors.subPlanPricing?.[index]?.discountEndDate)
+                                        touched.pricing?.[index]?.discount_end_date &&
+                                        Boolean(errors.pricing?.[index]?.discount_end_date)
                                       }
                                     >
-                                      {touched.subPlanPricing?.[index]?.discountEndDate &&
-                                        errors.subPlanPricing?.[index]?.discountEndDate}
+                                      {touched.pricing?.[index]?.discount_end_date &&
+                                        errors.pricing?.[index]?.discount_end_date}
                                     </FormHelperText>
                                   </FormControl>
                                 </Box>
@@ -280,7 +306,7 @@ const SubscriptionPlanForm = ({
                     <TextField
                       value={featureInput}
                       onChange={(e) => setFeatureInput(e.target.value)}
-                      onKeyPress={(e) => {
+                      onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault();
                           addFeature(setFieldValue, values.features);
@@ -317,16 +343,16 @@ const SubscriptionPlanForm = ({
 
                 {/* Sort Order */}
                 <TextField
-                  name="sortOrder"
+                  name="sort_order"
                   label="Sort Order"
                   type="number"
-                  value={values.sortOrder}
+                  value={values.sort_order}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   fullWidth
                   size="small"
-                  error={touched.sortOrder && Boolean(errors.sortOrder)}
-                  helperText={touched.sortOrder && errors.sortOrder}
+                  error={touched.sort_order && Boolean(errors.sort_order)}
+                  helperText={touched.sort_order && errors.sort_order}
                   disabled={isSubmitting}
                 />
 
@@ -334,8 +360,8 @@ const SubscriptionPlanForm = ({
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={values.isActive}
-                      onChange={(e) => setFieldValue('isActive', e.target.checked)}
+                      checked={values.is_active}
+                      onChange={(e) => setFieldValue('is_active', e.target.checked)}
                       disabled={isSubmitting}
                     />
                   }

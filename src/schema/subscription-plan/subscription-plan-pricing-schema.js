@@ -1,12 +1,7 @@
 import * as yup from 'yup';
-import {
-  SUB_PLAN_DISCOUNT_TYPES,
-  SUB_PLAN_DURATION,
-  SUB_PLAN_DURATION_ANNUAL,
-  SUB_PLAN_DURATION_MONTHLY,
-} from 'src/constants/subscription-constants';
+import { SUB_PLAN_DISCOUNT_TYPES, SUB_PLAN_DURATION } from 'src/constants/subscription-constants';
 
-const pricingSchema = yup.object({
+const subscriptionPlanPricingSchema = yup.object({
   duration: yup
     .string()
     .oneOf(SUB_PLAN_DURATION, 'Invalid duration')
@@ -43,30 +38,4 @@ const pricingSchema = yup.object({
     }),
 });
 
-const SubscriptionPlanSchema = yup.object({
-  name: yup.string().trim().required('Plan name is required'),
-  description: yup.string().trim().default(''),
-  currency: yup.string().default('LKR'),
-  is_active: yup.boolean().default(true),
-  sort_order: yup
-    .number()
-    .typeError('Sort order must be a number')
-    .integer('Sort order must be an integer')
-    .default(0),
-  pricing: yup
-    .array()
-    .of(pricingSchema)
-    .min(2, 'Both monthly and yearly pricing are required')
-    .max(2, 'Only monthly and yearly pricing allowed')
-    .test('unique-durations', 'Both monthly and yearly pricing must be provided', (value) => {
-      if (!value) return false;
-      const durations = value.map((p) => p.duration);
-      return (
-        durations.includes(SUB_PLAN_DURATION_MONTHLY) &&
-        durations.includes(SUB_PLAN_DURATION_ANNUAL)
-      );
-    }),
-  features: yup.array().of(yup.string()).default([]),
-});
-
-export default SubscriptionPlanSchema;
+export default subscriptionPlanPricingSchema;

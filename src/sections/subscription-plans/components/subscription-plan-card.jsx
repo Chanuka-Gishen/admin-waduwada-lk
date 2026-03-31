@@ -30,7 +30,7 @@ import {
   SUB_PLAN_DURATION_MONTHLY,
 } from 'src/constants/subscription-constants';
 
-const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
+const SubscriptionPlanCard = ({ plan, handleOnClickRow, handleEditClick }) => {
   const discountedPrices = getSubscriptionDiscountedPrice(plan);
   const monthlyPrice =
     plan.pricing.find((p) => p.duration === SUB_PLAN_DURATION_MONTHLY)?.price || 0;
@@ -47,6 +47,10 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
           flexDirection: 'column',
           border: plan.is_active ? '2px solid' : '1px solid',
           borderColor: plan.is_active ? 'primary.main' : 'divider',
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleOnClickRow(plan.id);
         }}
       >
         {/* Popular Badge */}
@@ -214,13 +218,13 @@ const SubscriptionPlanCard = ({ plan, handleEditClick }) => {
               Sort Order: {plan.sort_order}
             </Typography>
           </Box>
-          <Box>
+          {/* <Box>
             <Tooltip title="Edit Plan">
               <IconButton onClick={() => handleEditClick(plan)} color="primary" size="small">
                 <EditIcon />
               </IconButton>
             </Tooltip>
-          </Box>
+          </Box> */}
         </CardActions>
       </Card>
     </Grid>

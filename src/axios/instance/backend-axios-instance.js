@@ -47,9 +47,10 @@ backendAuthApi.interceptors.response.use(
          * AUTH-002 is returned if user's token is expired
          * AUTH-003 is returned if user's token is invalid
          * AUTH-004 is returned if user is disabled
+         * AUTH-005 is returned if user token invalid/expired
          */
 
-        if (errorResponse.responseCode === 'AUTH-004') {
+        if (errorResponse.responseCode === 'AUTH-005') {
           logoutUser();
 
           if (!window.location.pathname.includes(NAVIGATION_ROUTES.login)) {

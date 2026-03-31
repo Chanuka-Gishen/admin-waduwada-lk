@@ -14,6 +14,7 @@ export const SubscriptionPlansView = ({
   isLoadingSubscriptionPlans,
   isLoadingSubscriptionPlanCreate,
   isLoadingSubscriptionPlanUpdate,
+  handleOnClickRow,
   handleToggleAddSubscriptionPlan,
   handleToggleUpdateSubscriptionPlan,
   handleAddSubscriptionPlan,
@@ -70,6 +71,7 @@ export const SubscriptionPlansView = ({
               <SubscriptionPlanCard
                 key={index}
                 plan={plan}
+                handleOnClickRow={handleOnClickRow}
                 handleEditClick={handleToggleUpdateSubscriptionPlan}
               />
             ))}

@@ -6,8 +6,12 @@ import {
   SUB_PLAN_DURATION_ANNUAL,
   SUB_PLAN_DURATION_MONTHLY,
 } from 'src/constants/subscription-constants';
+import { useRouter } from 'src/routes/hooks';
+import { NAVIGATION_ROUTES } from 'src/routes/navigation-routes';
 
 const SubscriptionPlansController = () => {
+  const router = useRouter();
+
   const {
     subscriptionPlans,
     isLoadingSubscriptionPlans,
@@ -50,6 +54,10 @@ const SubscriptionPlansController = () => {
 
   const [isOpenAddSubscriptionPlan, setIsOpenAddSubscriptionPlan] = useState(false);
   const [isOpenUpdateSubscriptionPlan, setIsOpenUpdateSubscriptionPlan] = useState(false);
+
+  const handleOnClickRow = (id) => {
+    router.push(NAVIGATION_ROUTES.subscription_plans.plan.id + id);
+  };
 
   const handleToggleAddSubscriptionPlan = () => {
     setIsOpenAddSubscriptionPlan(!isOpenAddSubscriptionPlan);
@@ -145,6 +153,7 @@ const SubscriptionPlansController = () => {
       isLoadingSubscriptionPlans={isLoadingSubscriptionPlans}
       isLoadingSubscriptionPlanCreate={isLoadingSubscriptionPlanCreate}
       isLoadingSubscriptionPlanUpdate={isLoadingSubscriptionPlanUpdate}
+      handleOnClickRow={handleOnClickRow}
       handleToggleAddSubscriptionPlan={handleToggleAddSubscriptionPlan}
       handleToggleUpdateSubscriptionPlan={handleToggleUpdateSubscriptionPlan}
       handleAddSubscriptionPlan={handleAddSubscriptionPlan}

@@ -3,7 +3,7 @@ import { Admins } from 'src/sections/admins';
 const AdminsPage = () => {
   return (
     <>
-      <title> Administration | WaduWada.lk </title>
+      <title> Administration | Admin.WaduWada.lk </title>
 
       <Admins />
     </>

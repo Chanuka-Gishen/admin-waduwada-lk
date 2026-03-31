@@ -16,6 +16,7 @@ export const AdministrationPage = lazy(() => import('src/pages/admins'));
 export const ShopsPage = lazy(() => import('src/pages/shops'));
 export const MerchantsPage = lazy(() => import('src/pages/merchants'));
 export const SubscriptionPlansPage = lazy(() => import('src/pages/subscription-plans'));
+export const SubscriptionPlanPage = lazy(() => import('src/pages/subscription-plan'));
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ const Router = () => {
         { path: NAVIGATION_ROUTES.shops.base, element: <ShopsPage /> },
         { path: NAVIGATION_ROUTES.merchants.base, element: <MerchantsPage /> },
         { path: NAVIGATION_ROUTES.subscription_plans.base, element: <SubscriptionPlansPage /> },
+        { path: NAVIGATION_ROUTES.subscription_plans.plan.base, element: <SubscriptionPlanPage /> },
         { path: NAVIGATION_ROUTES.admins.base, element: <AdministrationPage /> },
       ],
     },

@@ -21,6 +21,8 @@ const findResponseType = (responseCode = null) => {
       return SNACKBAR_VARIANT.WARNING;
     case '4':
       return SNACKBAR_VARIANT.ERROR;
+    case '5':
+      return SNACKBAR_VARIANT.ERROR;
     default:
       return null;
   }

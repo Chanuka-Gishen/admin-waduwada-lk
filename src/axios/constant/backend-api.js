@@ -20,8 +20,14 @@ export const BACKEND_API = {
 
   SUBSCRIPTION_CREATE: IP_URL + '/subscription/supAuth/add',
   SUBSCRIPTION_UPDATE: IP_URL + '/subscription/supAuth/update',
+  SUBSCRIPTION_FEATURE_ADD: IP_URL + '/subscription/supAuth/feature-add',
+  SUBSCRIPTION_FEATURE_UPDATE: IP_URL + '/subscription/supAuth/feature-update',
+  SUBSCRIPTION_FEATURE_DELETE: IP_URL + '/subscription/supAuth/feature-delete',
+  SUBSCRIPTION_PRICING_UPDATE: IP_URL + '/subscription/supAuth/pricing-update',
+  SUBSCRIPTION: IP_URL + '/subscription/auth/',
   SUBSCRIPTIONS: IP_URL + '/subscription/noAuth/list',
   SUBSCRIPTION_OPTIONS: IP_URL + '/subscription/supAuth/options',
+  SUBSCRIPTION_PLAN: IP_URL + '/subscription/auth/',
 
   SHOPS: IP_URL + '/shops/noAuth',
 };

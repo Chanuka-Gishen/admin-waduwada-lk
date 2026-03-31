@@ -21,6 +21,10 @@ export const NAVIGATION_ROUTES = {
   },
   subscription_plans: {
     base: '/subscription_plans',
+    plan: {
+      base: '/subscription_plans/:id',
+      id: '/subscription_plans/',
+    },
   },
   admins: {
     base: '/administration',
