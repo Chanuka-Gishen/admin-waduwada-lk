@@ -13,6 +13,7 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 // --------------- Auth Pages ---------------
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const AdministrationPage = lazy(() => import('src/pages/admins'));
+export const CategoriesPage = lazy(() => import('src/pages/categories'));
 export const ShopsPage = lazy(() => import('src/pages/shops'));
 export const MerchantsPage = lazy(() => import('src/pages/merchants'));
 export const SubscriptionPlansPage = lazy(() => import('src/pages/subscription-plans'));
@@ -55,6 +56,7 @@ const Router = () => {
       children: [
         { path: '/', element: <Navigate to={NAVIGATION_ROUTES.dashboard.base} replace /> },
         { path: NAVIGATION_ROUTES.dashboard.base, element: <IndexPage /> },
+        { path: NAVIGATION_ROUTES.categories.base, element: <CategoriesPage /> },
         { path: NAVIGATION_ROUTES.shops.base, element: <ShopsPage /> },
         { path: NAVIGATION_ROUTES.merchants.base, element: <MerchantsPage /> },
         { path: NAVIGATION_ROUTES.subscription_plans.base, element: <SubscriptionPlansPage /> },

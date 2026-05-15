@@ -5,6 +5,7 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PeopleIcon from '@mui/icons-material/People';
+import StyleIcon from '@mui/icons-material/Style';
 
 import { USER_ROLE_ADMIN, USER_ROLE_SUPER_ADMIN } from 'src/constants/user-role';
 
@@ -14,6 +15,13 @@ const navConfig = [
     name: NAVBAR_ITEMS.DASHBOARD,
     path: '',
     icon: <DashboardIcon />,
+    permissions: [USER_ROLE_SUPER_ADMIN, USER_ROLE_ADMIN],
+  },
+  {
+    title: 'Categories',
+    name: NAVBAR_ITEMS.CATEGORIES,
+    path: NAVBAR_ITEMS.CATEGORIES,
+    icon: <StyleIcon />,
     permissions: [USER_ROLE_SUPER_ADMIN, USER_ROLE_ADMIN],
   },
   {
