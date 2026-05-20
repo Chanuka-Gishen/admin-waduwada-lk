@@ -26,9 +26,28 @@ const CategoriesController = () => {
   } = useCategory();
 
   const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
   const handleToggleAdd = () => {
     setIsOpenAdd(!isOpenAdd);
+  };
+
+  const handleToggleUpdate = (values = null) => {
+    if (!isOpenUpdate && !values) return;
+
+    if (!isOpenUpdate) {
+      setInitialValues({
+        id: values.id,
+        name: values.name,
+        icon_url: values.icon_url,
+        is_active: values.is_active,
+        parent_id: values.parent_id ?? null,
+      });
+    } else {
+      setInitialValues(categoryInitialValues);
+    }
+
+    setIsOpenUpdate(!isOpenUpdate);
   };
 
   const handleAddNewCategory = async (values, resetForm) => {
@@ -36,6 +55,16 @@ const CategoriesController = () => {
 
     if (result) {
       handleToggleAdd();
+      resetForm();
+      fetchCategories();
+    }
+  };
+
+  const handleUpdateCategory = async (values, resetForm) => {
+    const result = await updateCategory(values);
+
+    if (result) {
+      handleToggleUpdate();
       resetForm();
       fetchCategories();
     }
@@ -57,11 +86,15 @@ const CategoriesController = () => {
       categories={categories?.parents}
       categoryOptions={categoryOptions}
       isOpenAdd={isOpenAdd}
+      isOpenUpdate={isOpenUpdate}
       isLoadingCategories={isLoadingCategories}
       isLoadingCategoryOptions={isLoadingCategoryOptions}
       isLoadingCreateCategory={isLoadingCreateCategory}
+      isLoadingUpdateCategory={isLoadingUpdateCategory}
       handleToggleAdd={handleToggleAdd}
+      handleToggleUpdate={handleToggleUpdate}
       handleAddNewCategory={handleAddNewCategory}
+      handleUpdateCategory={handleUpdateCategory}
     />
   );
 };

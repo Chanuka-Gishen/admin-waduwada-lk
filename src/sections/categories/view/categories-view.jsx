@@ -18,11 +18,15 @@ export const CategoriesView = ({
   categories,
   categoryOptions,
   isOpenAdd,
+  isOpenUpdate,
   isLoadingCategories,
   isLoadingCategoryOptions,
   isLoadingCreateCategory,
+  isLoadingUpdateCategory,
   handleToggleAdd,
+  handleToggleUpdate,
   handleAddNewCategory,
+  handleUpdateCategory,
 }) => {
   return (
     <Container>
@@ -55,8 +59,8 @@ export const CategoriesView = ({
               <CategoryCard
                 key={category.id}
                 category={category}
-                isLoadingUpdate={false}
-                onUpdate={null}
+                isLoadingUpdate={isLoadingUpdateCategory}
+                onUpdate={handleToggleUpdate}
               />
             ))}
           </Fragment>
@@ -71,6 +75,17 @@ export const CategoriesView = ({
           isLoadingCategoryOptions={isLoadingCategoryOptions}
           onClose={handleToggleAdd}
           onSubmit={handleAddNewCategory}
+        />
+      )}
+      {isOpenUpdate && (
+        <CategoryForm
+          initialValues={initialValues}
+          open={isOpenUpdate}
+          categoryOptions={categoryOptions}
+          isLoading={isLoadingUpdateCategory}
+          isLoadingCategoryOptions={isLoadingCategoryOptions}
+          onClose={handleToggleUpdate}
+          onSubmit={handleUpdateCategory}
         />
       )}
     </Container>
