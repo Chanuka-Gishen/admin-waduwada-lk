@@ -30,4 +30,9 @@ export const BACKEND_API = {
   SUBSCRIPTION_PLAN: IP_URL + '/subscription/auth/',
 
   SHOPS: IP_URL + '/shops/noAuth',
+
+  CATEGORIES: IP_URL + '/category/noAuth/',
+  CATEGORY_CREATE: IP_URL + '/category/supAuth',
+  CATEGORY_UPDATE: IP_URL + '/category/supAuth',
+  CATEGORY_OPTIONS: IP_URL + '/category/auth/options',
 };
